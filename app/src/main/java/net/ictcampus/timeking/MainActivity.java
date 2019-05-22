@@ -15,16 +15,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BottomNavigationView alle = (BottomNavigationView) findViewById(R.id.bottomMenu);
-        alle.getItemIconTintList();
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getMenuInflater();    
         inflater.inflate(R.menu.navigation, menu);
         return true;
     }

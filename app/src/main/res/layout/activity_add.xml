@@ -77,12 +77,12 @@
                     android:text="Datum:"
                     android:textSize="20dp"></TextView>
 
-                <EditText
-                    android:id="@+id/editText3"
+                <DatePicker
+                    android:id="@+id/datePicker1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="date" />
+                    android:layout_height="144dp"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner" />
 
 
             </TableRow>
@@ -98,12 +98,31 @@
                     android:text="Zeit:"
                     android:textSize="20dp"></TextView>
 
-                <EditText
-                    android:id="@+id/editText4"
+                <TimePicker
+                    android:id="@+id/simpleTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="146dp"
+                    android:timePickerMode="spinner" />
+
+
+            </TableRow>
+
+            <TableRow
+
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="93dp"
+                    android:layout_column="0"
+                    android:textSize="20dp"></TextView>
+
+                <Button
+                    android:id="@+id/btnCreate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="time" />
+                    android:text="Hinzufügen" />
 
 
             </TableRow>
@@ -117,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="29dp"
+        android:layout_marginBottom="110dp"
         android:layout_weight="1"
         android:paddingTop="20dp"
         app:itemIconTint="@android:color/black"

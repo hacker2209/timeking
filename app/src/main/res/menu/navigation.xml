@@ -4,14 +4,15 @@
     <item
         android:id="@+id/action_Open"
         android:icon="@drawable/ic_open"
-        android:title="Offen"></item>
+        android:title=""></item>
     <item
         android:id="@+id/action_All"
         android:icon="@drawable/ic_all"
-        android:title="Alle"></item>
+        android:title=""
+        ></item>
     <item
         android:id="@+id/action_settings"
-        android:title="Einstellungen">
-    </item>
+        android:icon="@drawable/ic_setting"
+        android:title=""></item>
 
 </menu>

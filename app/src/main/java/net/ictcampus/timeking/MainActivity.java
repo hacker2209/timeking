@@ -1,5 +1,7 @@
 package net.ictcampus.timeking;
 
+import android.content.ClipData;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +14,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView alle = (BottomNavigationView) findViewById(R.id.bottomMenu);
+        alle.getItemIconTintList();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_All) {
-            startActivity(new Intent(MainActivity.this, AddActivity.class));
+            startActivity(new Intent(MainActivity.this, AllActivity.class));
             return true;
         }
         else if(item.getItemId()==R.id.action_Open){

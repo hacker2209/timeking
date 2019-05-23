@@ -32,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, AddActivity.class));
                     return true;
                 }
+                else if(item.getItemId()==R.id.action_Open){
+                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+                    return true;
+                }
+                else if(item.getItemId()==R.id.action_settings){
+                    startActivity(new Intent(MainActivity.this, SetActivity.class));
+                    return true;
+                }
                 return false;
             }
         });

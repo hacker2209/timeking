@@ -20,35 +20,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addButton);
-<<<<<<< HEAD
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, AddActivity.class));
             }
         });
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.action_All) {
-                    startActivity(new Intent(MainActivity.this, AddActivity.class));
-                    return true;
-                }
-                else if(item.getItemId()==R.id.action_Open){
-                    startActivity(new Intent(MainActivity.this, MainActivity.class));
-                    return true;
-                }
-                else if(item.getItemId()==R.id.action_settings){
-                    startActivity(new Intent(MainActivity.this, SetActivity.class));
-                    return true;
-                }
-                return false;
-            }
-        });
-=======
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
->>>>>>> OnlineTimeKing/master
+
 
     }
 

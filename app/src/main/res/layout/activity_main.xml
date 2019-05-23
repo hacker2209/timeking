@@ -19,10 +19,9 @@
         android:padding="10dp">
 
         <TableLayout
-            android:id="@+id/tableLayout1"
+            android:id="@+id/open"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0,1">
+            android:layout_height="wrap_content">
 
             <TableRow
                 android:id="@+id/tableRow1"
@@ -35,7 +34,7 @@
                     android:id="@+id/textView1"
                     android:layout_width="47dp"
                     android:layout_height="wrap_content"
-                    android:layout_column="0"
+
                     android:text="Fach"
 
                     android:textSize="15sp"></TextView>
@@ -44,22 +43,22 @@
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_column="1"
+
                     android:text="Datum"
                     android:textSize="15sp"></TextView>
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="36dp"
-                    android:layout_column="1"
+                    android:layout_width="match_parent"
+
                     android:textSize="15sp"
-                    tools:text="B"></TextView>
+                    tools:text="Betrieb"></TextView>
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="41dp"
+                    android:layout_width="match_parent"
                     android:layout_column="1"
-                    android:text="L"
+                    android:text="Lehrer"
                     android:textSize="15dp"></TextView>
 
             </TableRow>

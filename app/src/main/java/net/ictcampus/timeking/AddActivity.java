@@ -47,7 +47,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         dateIn = (DatePicker) findViewById(R.id.date);
         timeIn = (TimePicker) findViewById(R.id.time);
         test = (TextView) findViewById(R.id.test);
-        absenzen = (TableLayout) findViewById(R.id.open);
+        absenzen = (TableLayout) findViewById(R.id.tableLayout1);
         dateText= new TextView(this);
         fachText= new TextView(this);
         newAbsenz= new TableRow(this);

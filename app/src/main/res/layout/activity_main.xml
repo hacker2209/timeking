@@ -20,47 +20,46 @@
 
         <TableLayout
             android:id="@+id/tableLayout1"
-            android:layout_width="match_parent"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:stretchColumns="0,1">
 
             <TableRow
                 android:id="@+id/tableRow1"
-                android:layout_width="match_parent"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:background="#DEDEDE"
                 android:padding="5dp">
 
                 <TextView
                     android:id="@+id/textView1"
-                    android:layout_width="47dp"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_column="0"
                     android:text="Fach"
-
-                    android:textSize="15sp"></TextView>
+                    android:textSize="30dp"></TextView>
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="match_parent"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:text="Datum"
-                    android:textSize="15sp"></TextView>
+                    android:textSize="30dp"></TextView>
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="36dp"
+                    android:layout_width="40dp"
                     android:layout_column="1"
-                    android:textSize="15sp"
+                    android:textSize="30dp"
                     tools:text="B"></TextView>
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="41dp"
+                    android:layout_width="40dp"
                     android:layout_column="1"
                     android:text="L"
-                    android:textSize="15dp"></TextView>
+                    android:textSize="30dp"></TextView>
 
             </TableRow>
 

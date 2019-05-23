@@ -6,4 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".SetActivity">
 
+    <!-- Block Einstellungen-->
+    <TextView
+        android:layout_width="414dp"
+        android:layout_height="30dp"
+        android:text="Einstellungen"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <!-- Block Name ändern-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Name ändern"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="3dp"
+        tools:layout_editor_absoluteY="30dp" />
+
+    <!-- Block neuer Name-->
+    <TextView
+        android:layout_width="207dp"
+        android:layout_height="60dp"
+        android:text="Neuer Name"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteY = "90dp"
+        tools:ignore="MissingConstraints">
+    </TextView>
+
+    <!-- Block Eingabe neuer Name-->
+    <TextView
+        android:layout_width="207dp"
+        android:layout_height="60dp"
+        tools:layout_editor_absoluteY = "90dp"
+        tools:layout_editor_absoluteX ="207dp"
+        tools:ignore="MissingConstraints" />
+
+    <!-- Wecker-->
+    <TextView
+        android:layout_width="414dp"
+        android:layout_height="60dp"
+        android:text="Wecker"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteY = "150dp"
+        tools:ignore="MissingConstraints" />
+
+
+
 </android.support.constraint.ConstraintLayout>

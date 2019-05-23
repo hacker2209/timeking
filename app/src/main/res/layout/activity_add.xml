@@ -57,7 +57,7 @@
                     android:textSize="20dp"></TextView>
 
                 <EditText
-                    android:id="@+id/editText2"
+                    android:id="@+id/fach"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -78,7 +78,7 @@
                     android:textSize="20dp"></TextView>
 
                 <DatePicker
-                    android:id="@+id/datePicker1"
+                    android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="144dp"
                     android:calendarViewShown="false"
@@ -99,7 +99,7 @@
                     android:textSize="20dp"></TextView>
 
                 <TimePicker
-                    android:id="@+id/simpleTimePicker"
+                    android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="146dp"
                     android:timePickerMode="spinner" />
@@ -109,18 +109,19 @@
 
             <TableRow
 
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:padding="5dp">
 
                 <TextView
+                    android:id="@+id/test"
                     android:layout_width="93dp"
                     android:layout_column="0"
                     android:textSize="20dp"></TextView>
 
                 <Button
                     android:id="@+id/btnCreate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Hinzufügen" />
 

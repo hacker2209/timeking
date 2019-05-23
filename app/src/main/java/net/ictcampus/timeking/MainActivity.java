@@ -19,25 +19,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AddActivity.class));
-            }
-        });
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.action_All) {
-                    startActivity(new Intent(MainActivity.this, AddActivity.class));
-                    return true;
-                }
-                return false;
-            }
-        });
+        fab.setOnClickListener(this);
+
 
     }
-
 
 
     @Override
@@ -45,5 +30,30 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.navigation, menu);
         return true;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_All:
+                startActivity(new Intent(MainActivity.this, AllActivity.class));
+                return true;
+            case R.id.action_Open:
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(MainActivity.this, SetActivity.class));
+                return true;
+        }
+        return false;
+    }
+
+
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(MainActivity.this, AddActivity.class);
+        startActivity(intent);
     }
 }

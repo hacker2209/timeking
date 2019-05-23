@@ -19,14 +19,14 @@
         android:padding="10dp">
 
         <TableLayout
-            android:id="@+id/tableLayout1"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0,1">
+            android:id="@+id/open"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
 
             <TableRow
                 android:id="@+id/tableRow1"
-                android:layout_width="160dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#DEDEDE"
                 android:padding="5dp">

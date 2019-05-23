@@ -20,8 +20,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addButton);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, AddActivity.class));
+            }
+        });
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
 
     }
 

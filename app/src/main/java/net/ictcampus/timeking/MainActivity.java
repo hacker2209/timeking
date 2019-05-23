@@ -12,17 +12,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener{
     BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addButton);
         fab.setOnClickListener(this);
-
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
     }
+
 
 
     @Override
@@ -33,27 +35,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.action_All:
-                startActivity(new Intent(MainActivity.this, AllActivity.class));
-                return true;
-            case R.id.action_Open:
-                startActivity(new Intent(MainActivity.this, MainActivity.class));
-                return true;
-            case R.id.action_settings:
-                startActivity(new Intent(MainActivity.this, SetActivity.class));
-                return true;
-        }
-        return false;
+    public void onClick(View v) {
+        startActivity(new Intent(MainActivity.this, AddActivity.class));
     }
 
-
-
     @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, AddActivity.class);
-        startActivity(intent);
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_All) {
+            startActivity(new Intent(MainActivity.this, AddActivity.class));
+            return true;
+        }
+        else if(item.getItemId()==R.id.action_Open){
+            startActivity(new Intent(MainActivity.this, MainActivity.class));
+            return true;
+        }
+        else if(item.getItemId()==R.id.action_settings){
+            startActivity(new Intent(MainActivity.this, SetActivity.class));
+            return true;
+        }
+        return false;
     }
 }

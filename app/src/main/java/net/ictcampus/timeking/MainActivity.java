@@ -51,13 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         db = new Database_SQLite(this);
         Cursor cursor = db.get_Table();
         int colID = cursor.getColumnIndex("IDAbsenz");
@@ -90,6 +83,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

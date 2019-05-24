@@ -82,7 +82,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "UPDATE tbl_Notes " +
                 " SET Betrieb = '" + sBetrieb + "'"    +
-                " WHERE IDAbsenz=" + IDNote ;
+        " WHERE IDAbsenz=" + IDNote ;
         //< run >
         db.execSQL(sSQL);
         //</ run >

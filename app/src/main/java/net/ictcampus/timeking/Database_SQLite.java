@@ -18,6 +18,8 @@ public class Database_SQLite extends SQLiteOpenHelper {
                 "(  IDAbsenz INTEGER PRIMARY KEY AUTOINCREMENT " +
                 " , Fach TEXT " +      //*Note of type TEXT
                 " , Datum DATETIME " +       //*Note of type TEXT
+                " , Betrieb  TEXT DEFAULT 'False' " +
+                " , Lehrer  TEXT DEFAULT 'False' " +
                 ")"
                 ;
         db.execSQL(createTable);
@@ -57,7 +59,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
         //</ out >
         //--------</ add_Note() >--------
     }
-    public Cursor get_Table(){
+    public Cursor get_Table_All(){
         //--------< get_Table() >--------
         //
         SQLiteDatabase db = this.getWritableDatabase();
@@ -66,7 +68,37 @@ public class Database_SQLite extends SQLiteOpenHelper {
         return data;
         //--------</ get_Table() >--------
     }
-
+    public Cursor get_Table_Open(){
+        //--------< get_Table() >--------
+        //
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sSQL = "SELECT * FROM tbl_Absenz WHERE Betrieb='False' AND Lehrer='False'";
+        Cursor data = db.rawQuery(sSQL, null);
+        return data;
+        //--------</ get_Table() >--------
+    }
+    public void update_status_betrieb(Integer IDNote, String sBetrieb){
+        //--------< update_Note_byID() >--------
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sSQL = "UPDATE tbl_Notes " +
+                " SET Betrieb = '" + sBetrieb + "'"    +
+        " WHERE IDAbsenz=" + IDNote ;
+        //< run >
+        db.execSQL(sSQL);
+        //</ run >
+        //--------</ update_Note_byID() >--------
+    }
+    public void update_status_lehrer(Integer IDNote, String sLehrer){
+        //--------< update_Note_byID() >--------
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sSQL = "UPDATE tbl_Notes " +
+                " SET Lehrer = '" + sLehrer + "'"    +
+                " WHERE IDAbsenz=" + IDNote ;
+        //< run >
+        db.execSQL(sSQL);
+        //</ run >
+        //--------</ update_Note_byID() >--------
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

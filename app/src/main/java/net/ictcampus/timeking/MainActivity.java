@@ -52,13 +52,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         db = new Database_SQLite(this);
-        Cursor cursor = db.get_Table();
+        Cursor cursor = db.get_Table_Open();
         int colID = cursor.getColumnIndex("IDAbsenz");
         int colFach = cursor.getColumnIndex("Fach");
         int colDate = cursor.getColumnIndex("Datum");
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 //< get Data from data_cursor >
+                int sID = cursor.getInt(colID);
                 String sTitle = cursor.getString(colFach);
                 String sDate = cursor.getString(colDate);
                 //</ get Data from data_cursor >
@@ -68,13 +69,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 datumText=new TextView(this);
                 newAbs=new TableRow(this);
                 betriebCheck=new CheckBox(this);
+                betriebCheck.setTag(sID);
                 lehrerCheck=new CheckBox(this);
+                lehrerCheck.setTag(sID);
                 fachText.setText(sTitle);
                 datumText.setText(sDate);
+                fachText.setTextSize(20);
+                datumText.setTextSize(20);
                 newAbs.addView(fachText);
                 newAbs.addView(datumText);
                 newAbs.addView(betriebCheck);
                 newAbs.addView(lehrerCheck);
+                newAbs.setPadding(5,5,5,5);
                 open.addView(newAbs);
                 //< create data as dataclass >
                 DataModel_Absenz note = new DataModel_Absenz();

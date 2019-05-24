@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Timeking</string>
+    <string name="WochentagMO">MO</string>
+    <string name="WochentagDI">DI</string>
+    <string name="WochentagMI">MI</string>
+    <string name="WochentagDO">DO</string>
+    <string name="WochentagFR">FR</string>
+    <string name="anwenden">anwenden</string>
+    <string name="abend">Abend</string>
+    <string name="morgen">Morgen</string>
+    <string name="mittag">Mittag</string>
+    <string name="wochentage">Wochentage</string>
+    <string name="wecker">Wecker</string>
+    <string name="neuerName">Neuer Name</string>
+    <string name="NameAendern">Name Ändern</string>
+    <string name="Einstellungen">Einstellungen</string>
+    <string name="schultag">Schultag</string>
 </resources>

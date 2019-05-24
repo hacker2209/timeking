@@ -1,6 +1,8 @@
 package net.ictcampus.timeking;
 
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -18,10 +20,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
+    Database_SQLite db;
     private Button button;
     private BottomNavigationView navi;
     private Window w;
@@ -53,6 +55,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         newAbsenz= new TableRow(this);
         navi = (BottomNavigationView) findViewById(R.id.bottomMenu);
         navi.setOnNavigationItemSelectedListener(this);
+        db=new Database_SQLite(this);
         button.setOnClickListener(this);
     }
 
@@ -65,21 +68,19 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YY");
         fach = fachIn.getText().toString();
         int day = dateIn.getDayOfMonth();
         int month = dateIn.getMonth();
         int year = dateIn.getYear();
-        date = day + "." + month + "." + year;
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, day);
         int hour = timeIn.getHour();
         int minute = timeIn.getMinute();
-        time = hour + ":" + minute;
-        test.setText(fach+time+date);
-        dateText.setText(date);
-        fachText.setText(fach);
-        newAbsenz.addView(fachText);
-        newAbsenz.addView(dateText);
-        absenzen.addView(newAbsenz);
-
+        date = year+"-"+(month+1)+"-"+day;
+       db.add_Note(fach, Date.valueOf(date));
     //    startActivity(new Intent(AddActivity.this, MainActivity.class));
 
 

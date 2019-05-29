@@ -122,11 +122,11 @@
                 android:textSize="50px" />
 
             <CheckBox
-                android:layout_width="wrap_content"
+                android:layout_width="58dp"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:width="100px"
-                android:padding="5dp"/>
+                android:padding="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"

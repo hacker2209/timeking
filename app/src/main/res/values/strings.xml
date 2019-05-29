@@ -9,10 +9,16 @@
     <string name="abend">Abend</string>
     <string name="morgen">Morgen</string>
     <string name="mittag">Mittag</string>
-    <string name="wochentage">Wochentage</string>
+    <string name="wochentage">Wochentage:</string>
     <string name="wecker">Wecker</string>
     <string name="neuerName">Neuer Name</string>
     <string name="NameAendern">Name Ändern</string>
     <string name="Einstellungen">Einstellungen</string>
     <string name="schultag">Schultag</string>
+    <string name="schule">Schule</string>
+    <string name="Betrieb">Betrieb</string>
+    <string name="zeit">Zeit</string>
+    <string name="Fach">Fach</string>
+    <string name="Datum">Datum</string>
+    <string name="Hinzufuegen">Hinzufügen</string>
 </resources>

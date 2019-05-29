@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SetActivity"></activity>
+        <activity android:name=".SetActivity"/>
         <activity android:name=".AllActivity" />
         <activity android:name=".AddActivity" />
         <activity android:name=".MainActivity">
@@ -20,5 +20,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.hardware.location.gps"/>
 
 </manifest>

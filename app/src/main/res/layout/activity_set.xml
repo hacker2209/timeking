@@ -20,11 +20,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:background="@color/bgSet"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:text="@string/NameAendern"
-        android:textSize="60px"
         android:textAlignment="center"
-        android:background="@color/bgSet"/>
+        android:textSize="60px" />
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -46,9 +47,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
-                android:width="100dp"
                 android:padding="15dp"
-                android:textSize="50px"/>
+                android:textSize="50px"
+                android:maxLength="10"/>
         </TableRow>
 
         <!--Wecker-->
@@ -236,7 +237,7 @@
 
         <Button
             android:padding="0dp"
-            android:layout_width="135dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_row="0"
             android:layout_column="0"
@@ -245,21 +246,21 @@
         <Button
             android:padding="0dp"
             android:text="@string/WochentagDI"
-            android:layout_width="135dp"
+            android:layout_width="130dp"
             android:layout_column="1"
             android:layout_row="0"
             android:textSize="50px"/>
         <Button
             android:padding="0dp"
             android:text="@string/WochentagMI"
-            android:layout_width="135dp"
+            android:layout_width="130dp"
             android:layout_column="2"
             android:layout_row="0"
             android:textSize="50px"/>
 
         <Button
             android:padding="0dp"
-            android:layout_width="135dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_row="1"
             android:layout_column="0"
@@ -267,7 +268,7 @@
             android:textSize="50px"/>
         <Button
             android:padding="0dp"
-            android:layout_width="135dp"
+            android:layout_width="130dp"
             android:text="@string/WochentagFR"
             android:layout_column="1"
             android:layout_row="1"
@@ -275,17 +276,18 @@
         <Button
             android:padding="0dp"
             android:text="@string/anwenden"
-            android:layout_width="135dp"
+            android:layout_width="130dp"
             android:layout_column="2"
             android:layout_row="1"
             android:textSize="50px"/>
     </GridLayout>
+
     <android.support.design.widget.BottomNavigationView xmlns:design="http://schema.android.com/apk/res/android.support.design"
         android:id="@+id/bottomMenu"
         android:layout_width="400dp"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-1dp"
+        android:layout_marginTop="15dp"
         app:itemIconTint="@android:color/black"
         app:itemTextColor="@android:color/black"
         app:menu="@menu/navigation" />

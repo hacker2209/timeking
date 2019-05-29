@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_column="0"
                 android:padding="15dp"
-                android:text="Fach"
+                android:text="@string/Fach"
                 android:textSize="50px"></TextView>
 
             <TextView
@@ -37,11 +37,11 @@
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:padding="15dp"
-                android:text="Datum"
+                android:text="@string/Datum"
                 android:textSize="50px"></TextView>
 
         </TableRow>
-
+        <!--Beispieldaten-->
         <TableRow
 
             android:layout_width="fill_parent"

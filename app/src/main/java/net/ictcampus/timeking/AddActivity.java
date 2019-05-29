@@ -3,10 +3,10 @@ package net.ictcampus.timeking;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -79,7 +79,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         int minute = timeIn.getMinute();
         date = year+"-"+(month+1)+"-"+day;
        db.add_Note(fach, Date.valueOf(date));
-    //    startActivity(new Intent(AddActivity.this, MainActivity.class));
+        startActivity(new Intent(AddActivity.this, MainActivity.class));
 
 
     }

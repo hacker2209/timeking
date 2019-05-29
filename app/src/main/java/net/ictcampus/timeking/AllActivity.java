@@ -2,16 +2,15 @@ package net.ictcampus.timeking;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -34,6 +33,28 @@ public class AllActivity extends AppCompatActivity implements BottomNavigationVi
         all = (TableLayout) findViewById(R.id.all);
         fab.setOnClickListener(this);
         db = new Database_SQLite(this);
+
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        db.close();
+    }
+
+    @Override
+    protected void onResume() {
+        if (all.getChildCount()>0){
+            all.removeViewsInLayout(1, all.getChildCount()-1);
+        }
+        super.onResume();
+        takeData();
+
+
+    }
+    private void takeData(){
         Cursor cursor = db.get_Table_All();
         int colID = cursor.getColumnIndex("IDAbsenz");
         int colFach = cursor.getColumnIndex("Fach");
@@ -62,11 +83,7 @@ public class AllActivity extends AppCompatActivity implements BottomNavigationVi
 
             }
         }
-
-
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

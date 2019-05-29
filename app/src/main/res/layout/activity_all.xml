@@ -2,73 +2,68 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearLayout"
-    android:layout_width="395dp"
-    android:layout_height="624dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp"
     android:orientation="horizontal"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+
+    <TableLayout
+        android:id="@+id/all"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp">
+        android:stretchColumns="0,1">
 
-        <TableLayout
-            android:id="@+id/all"
-            android:layout_width="match_parent"
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:background="@color/bgSet">
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:padding="15dp"
+                android:text="Fach"
+                android:textSize="50px"></TextView>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:padding="15dp"
+                android:text="Datum"
+                android:textSize="50px"></TextView>
+
+        </TableRow>
+
+        <TableRow
+
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="0,1">
+            android:padding="5dp">
 
-            <TableRow
-                android:id="@+id/tableRow1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="#DEDEDE"
-                android:padding="5dp">
+            <TextView
+                android:layout_width="93dp"
+                android:layout_column="0"
+                android:text="Englisch"
+                android:textSize="40px"></TextView>
 
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="93dp"
-                    android:layout_column="0"
-                    android:padding="10dp"
-                    android:text="Fach"
-                    android:textSize="36sp"></TextView>
+            <TextView
+                android:layout_column="1"
+                android:padding="10dp"
+                android:text="21.12.18"
+                android:textSize="40px"></TextView>
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_column="1"
-                    android:padding="10dp"
-                    android:text="Datum"
-                    android:textSize="36sp"></TextView>
+        </TableRow>
 
-            </TableRow>
+    </TableLayout>
 
-            <TableRow
-
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="93dp"
-                    android:layout_column="0"
-                    android:text="Englisch"
-                    android:textSize="20dp"></TextView>
-
-                <TextView
-                    android:layout_column="1"
-                    android:padding="10dp"
-                    android:text="21.12.18"
-                    android:textSize="20dp"></TextView>
-
-            </TableRow>
-
-        </TableLayout>
-    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addButton"
@@ -76,20 +71,19 @@
         android:layout_height="86dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="28dp"
-        android:layout_marginBottom="128dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="104dp"
         android:clickable="true"
         app:backgroundTint="#3A6A8A"
         app:itemIconTint="@android:color/white"
-        app:srcCompat="@drawable/ic_add" />
+        app:srcCompat="@drawable/ic_add"/>
 
     <android.support.design.widget.BottomNavigationView xmlns:design="http://schema.android.com/apk/res/android.support.design"
         android:id="@+id/bottomMenu"
         android:layout_width="400dp"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="-1dp"
         app:itemIconTint="@android:color/black"
         app:itemTextColor="@android:color/black"
         app:menu="@menu/navigation" />

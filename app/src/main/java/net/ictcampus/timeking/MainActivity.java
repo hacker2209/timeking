@@ -1,5 +1,7 @@
 package net.ictcampus.timeking;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
@@ -35,6 +38,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         db = new Database_SQLite(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AlarmManager locListen = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+        Intent startLoc = new Intent(MainActivity.this,AbsenzNotificationService.class);
+        PendingIntent startLocPending= PendingIntent.getService(MainActivity.this,0,startLoc,0);
+        locListen.setRepeating(AlarmManager.RTC_WAKEUP,0,1000*60*5, startLocPending);
         ArrayList<DataModel_Absenz> data_with_Notes = new ArrayList<DataModel_Absenz>();
         open = (TableLayout) findViewById(R.id.open);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);

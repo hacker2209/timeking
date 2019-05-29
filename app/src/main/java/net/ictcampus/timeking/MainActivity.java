@@ -1,15 +1,12 @@
 package net.ictcampus.timeking;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.icu.text.SimpleDateFormat;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,11 +16,8 @@ import android.widget.CompoundButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
@@ -151,11 +145,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //< create data as dataclass >
                 DataModel_Absenz note = new DataModel_Absenz();
                 note.Fach = sTitle;
-                //       note.Datum= Date.valueOf(sDate);
-
-                // else  if(sDate== date){
-                //   newAbs.setBackgroundColor(Color.RED);
-                //}
                 lehrerCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -174,6 +163,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
                 open.addView(newAbs);
             }
+        }
+        else {
+            fachText= new TextView(this);
+            newAbs=new TableRow(this);
+            fachText.setText("WOW!! keine offenen Absenzen!!");
+            newAbs.addView(fachText);
+            open.addView(newAbs);
+
         }
     }
 }

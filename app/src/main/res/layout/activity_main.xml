@@ -61,39 +61,7 @@
                 />
         </TableRow>
 
-        <!--Beispiel Absenz English-->
-        <TableRow>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:layout_column="0"
-                android:text="English"
-                android:textSize="50px"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:padding="15dp"
-                android:text="1 day"
-                android:textSize="50px" />
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_column="2"
-                />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_column="3"
-                />
-        </TableRow>
     </TableLayout>
 
     <android.support.design.widget.FloatingActionButton

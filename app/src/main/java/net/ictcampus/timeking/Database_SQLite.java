@@ -15,7 +15,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE tbl_Absenz " +
-                "(  IDAbsenz INTEGER PRIMARY KEY AUTOINCREMENT " +
+                "(  ID INTEGER PRIMARY KEY AUTOINCREMENT " +
                 " , Fach TEXT " +      //*Note of type TEXT
                 " , Datum DATETIME " +       //*Note of type TEXT
                 " , Betrieb  TEXT DEFAULT 'False' " +
@@ -72,28 +72,28 @@ public class Database_SQLite extends SQLiteOpenHelper {
         //--------< get_Table() >--------
         //
         SQLiteDatabase db = this.getWritableDatabase();
-        String sSQL = "SELECT * FROM tbl_Absenz WHERE Betrieb='False' AND Lehrer='False'";
+        String sSQL = "SELECT * FROM tbl_Absenz WHERE Betrieb='False' OR Lehrer='False'";
         Cursor data = db.rawQuery(sSQL, null);
         return data;
         //--------</ get_Table() >--------
     }
-    public void update_status_betrieb(Integer IDNote, String sBetrieb){
+    public void update_status_betrieb(Integer IDNote){
         //--------< update_Note_byID() >--------
         SQLiteDatabase db = this.getWritableDatabase();
-        String sSQL = "UPDATE tbl_Notes " +
-                " SET Betrieb = '" + sBetrieb + "'"    +
-        " WHERE IDAbsenz=" + IDNote ;
+        String sSQL = "UPDATE tbl_Absenz " +
+                " SET Betrieb = 'True'"    +
+        " WHERE ID=" + IDNote ;
         //< run >
         db.execSQL(sSQL);
         //</ run >
         //--------</ update_Note_byID() >--------
     }
-    public void update_status_lehrer(Integer IDNote, String sLehrer){
+    public void update_status_lehrer(Integer IDNote){
         //--------< update_Note_byID() >--------
         SQLiteDatabase db = this.getWritableDatabase();
-        String sSQL = "UPDATE tbl_Notes " +
-                " SET Lehrer = '" + sLehrer + "'"    +
-                " WHERE IDAbsenz=" + IDNote ;
+        String sSQL = "UPDATE tbl_Absenz " +
+                " SET Lehrer = 'True'"    +
+                " WHERE ID=" + IDNote ;
         //< run >
         db.execSQL(sSQL);
         //</ run >

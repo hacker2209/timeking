@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:orientation="vertical"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bgSet"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="@string/NameAendern"
+        android:textAlignment="center"
+        android:textSize="60px" />
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1"
+        android:paddingTop="150px">
+
+
+        <TableRow
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:text="@string/Fach"
+                android:textSize="20dp"/>
+
+            <EditText
+                android:id="@+id/fach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:autofillHints="" />
+        </TableRow>
+
+        <TableRow
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:text="@string/Datum"
+                android:textSize="20dp"/>
+
+            <DatePicker
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="199dp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:text="@string/zeit"
+                android:textSize="20dp"/>
+
+            <TimePicker
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="146dp"
+                android:timePickerMode="spinner" />
+
+
+        </TableRow>
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="329dp"
+        android:layout_height="58dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="84dp"
+        android:layout_marginLeft="30dp"
+        android:text="@string/Hinzufuegen" />
+
+    <android.support.design.widget.BottomNavigationView xmlns:design="http://schema.android.com/apk/res/android.support.design"
+        android:id="@+id/bottomMenu"
+        android:layout_width="400dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="15dp"
+        app:itemIconTint="@android:color/black"
+        app:itemTextColor="@android:color/black"
+        app:menu="@menu/navigation" />
+
+
+
+</RelativeLayout>

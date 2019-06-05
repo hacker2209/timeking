@@ -41,26 +41,6 @@
                 android:textSize="50px"></TextView>
 
         </TableRow>
-        <!--Beispieldaten-->
-        <TableRow
-
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="93dp"
-                android:layout_column="0"
-                android:text="Englisch"
-                android:textSize="40px"></TextView>
-
-            <TextView
-                android:layout_column="1"
-                android:padding="10dp"
-                android:text="21.12.18"
-                android:textSize="40px"></TextView>
-
-        </TableRow>
 
     </TableLayout>
 

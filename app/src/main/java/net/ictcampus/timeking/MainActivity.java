@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView datumText;
     CheckBox betriebCheck;
     CheckBox lehrerCheck;
-    //</ create data as dataclass >
     TableRow newAbs;
 
     @Override
@@ -50,8 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
-
     }
 
     @Override
@@ -114,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String sTitle = cursor.getString(colFach);
                 String sDate = cursor.getString(colDate);
                 boolean leh= Boolean.parseBoolean(cursor.getString(colLehrer));
-               boolean bet= Boolean.parseBoolean(cursor.getString(colBetrieb));
+                boolean bet= Boolean.parseBoolean(cursor.getString(colBetrieb));
                 //</ get Data from data_cursor >
 
 
@@ -122,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 datumText=new TextView(this);
                 newAbs=new TableRow(this);
                 betriebCheck=new CheckBox(this);
-                 betriebCheck.setTag(sID);
+                betriebCheck.setTag(sID);
                 lehrerCheck=new CheckBox(this);
                  lehrerCheck.setTag(sID);
                 fachText.setText(sTitle);
@@ -167,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else {
             fachText= new TextView(this);
             newAbs=new TableRow(this);
-            fachText.setText("WOW!! keine offenen Absenzen!!");
+            fachText.setText("keine offenen Absenzen");
             newAbs.addView(fachText);
             open.addView(newAbs);
 

@@ -48,6 +48,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/nameChange"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
@@ -87,6 +88,7 @@
                     android:textSize="50px"/>
 
                 <CheckBox
+                    android:id="@+id/moCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
@@ -107,6 +109,7 @@
                     android:textSize="50px"/>
 
                 <CheckBox
+                    android:id="@+id/diCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
@@ -127,6 +130,7 @@
                     android:textSize="50px" />
 
                 <CheckBox
+                    android:id="@+id/morCheck"
                     android:layout_width="58dp"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
@@ -142,6 +146,7 @@
                     android:textSize="50px"/>
 
                 <CheckBox
+                    android:id="@+id/miCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
@@ -162,6 +167,7 @@
                     android:textSize="50px"/>
 
                 <CheckBox
+                    android:id="@+id/midCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
@@ -177,6 +183,7 @@
                     android:textSize="50px"/>
 
                 <CheckBox
+                    android:id="@+id/doCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
@@ -197,6 +204,7 @@
                     android:textSize="50px"/>
 
                 <CheckBox
+                    android:id="@+id/eveCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
@@ -213,6 +221,7 @@
                     android:textSize="50px"/>
 
                 <CheckBox
+                    android:id="@+id/frCheck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="4"
@@ -240,7 +249,7 @@
             android:rowCount="2">
 
             <Button
-                android:id="@+id/MOSet"
+                android:id="@+id/moSet"
                 android:padding="0dp"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
@@ -249,7 +258,7 @@
                 android:text="@string/WochentagMO"
                 android:textSize="50px"/>
             <Button
-                android:id="@+id/DISet"
+                android:id="@+id/diSet"
                 android:padding="0dp"
                 android:text="@string/WochentagDI"
                 android:layout_width="130dp"
@@ -257,7 +266,7 @@
                 android:layout_row="0"
                 android:textSize="50px"/>
             <Button
-                android:id="@+id/MISet"
+                android:id="@+id/miSet"
                 android:padding="0dp"
                 android:text="@string/WochentagMI"
                 android:layout_width="130dp"
@@ -266,7 +275,7 @@
                 android:textSize="50px"/>
 
             <Button
-                android:id="@+id/DOSet"
+                android:id="@+id/doSet"
                 android:padding="0dp"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
@@ -275,7 +284,7 @@
                 android:text="@string/WochentagDO"
                 android:textSize="50px"/>
             <Button
-                android:id="@+id/FRSet"
+                android:id="@+id/frSet"
                 android:padding="0dp"
                 android:layout_width="130dp"
                 android:text="@string/WochentagFR"

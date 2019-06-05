@@ -56,7 +56,7 @@ public class AllActivity extends AppCompatActivity implements BottomNavigationVi
     }
     private void takeData(){
         Cursor cursor = db.get_Table_All();
-        int colID = cursor.getColumnIndex("IDAbsenz");
+        int IDDay = cursor.getColumnIndex("IDAbsenz");
         int colFach = cursor.getColumnIndex("Fach");
         int colDate = cursor.getColumnIndex("Datum");
         if (cursor.getCount() > 0) {

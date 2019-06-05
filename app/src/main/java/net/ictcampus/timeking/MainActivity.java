@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void takeData(){
         Cursor cursor = db.get_Table_Open();
-        int colID = cursor.getColumnIndex("ID");
+        int  colID= cursor.getColumnIndex("ID");
         int colFach = cursor.getColumnIndex("Fach");
         int colDate = cursor.getColumnIndex("Datum");
         int colLehrer = cursor.getColumnIndex("Lehrer");

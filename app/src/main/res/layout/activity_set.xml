@@ -1,296 +1,305 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/linearLayout"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp"
-    android:orientation="vertical"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    android:fillViewport="true">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
 
     <!--Name ändern-->
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bgSet"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:text="@string/NameAendern"
-        android:textAlignment="center"
-        android:textSize="60px" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bgSet"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="@string/NameAendern"
+            android:textAlignment="center"
+            android:textSize="60px" />
 
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="0,1">
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1">
 
-        <TableRow>
+            <TableRow>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:layout_column="0"
+                    android:text="@string/neuerName"
+                    android:textSize="50px"
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:padding="15dp"
+                    android:textSize="50px"
+                    android:maxLength="10"/>
+            </TableRow>
+
+            <!--Wecker-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/wecker"
+                android:textAlignment="center"
+                android:background="@color/bgSet"
                 android:padding="15dp"
-                android:layout_column="0"
-                android:text="@string/neuerName"
-                android:textSize="50px"
-                />
+                android:textSize="60px"/>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:padding="15dp"
-                android:textSize="50px"
-                android:maxLength="10"/>
-        </TableRow>
 
-        <!--Wecker-->
+            <!--Wochentage + MO-->
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:text="@string/wochentage"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:text="@string/WochentagMO"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="4"
+                    android:width="100px"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+            </TableRow>
+
+            <!--DI-->
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:text="@string/WochentagDI"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="4"
+                    android:width="100px"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+            </TableRow>
+
+            <!--Morgen+Mittwoch-->
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:padding="15dp"
+                    android:text="@string/morgen"
+                    android:textSize="50px" />
+
+                <CheckBox
+                    android:layout_width="58dp"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:width="100px"
+                    android:padding="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:text="@string/WochentagMI"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="4"
+                    android:width="100px"
+                    android:padding="15dp"/>
+
+            </TableRow>
+
+            <!--Mittag+Donnerstag-->
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:text="@string/mittag"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:width="100px"
+                    android:padding="15dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:text="@string/WochentagDO"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="4"
+                    android:width="100px"
+                    android:padding="15dp"/>
+
+            </TableRow>
+
+            <!--Abend+Freitag-->
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:text="@string/abend"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:width="100px"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:text="@string/WochentagFR"
+                    android:padding="15dp"
+                    android:textSize="50px"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="4"
+                    android:width="100px"
+                    android:padding="15dp"/>
+
+            </TableRow>
+
+
+        </TableLayout>
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/wecker"
+            android:text="@string/schultag"
             android:textAlignment="center"
             android:background="@color/bgSet"
             android:padding="15dp"
             android:textSize="60px"/>
 
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="2">
 
-        <!--Wochentage + MO-->
-        <TableRow>
-
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/MOSet"
+                android:padding="0dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
+                android:layout_row="0"
                 android:layout_column="0"
-                android:text="@string/wochentage"
-                android:padding="15dp"
-                android:textSize="50px"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3"
                 android:text="@string/WochentagMO"
-                android:padding="15dp"
                 android:textSize="50px"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="4"
-                android:width="100px"
-                android:padding="15dp"
-                android:textSize="50px"/>
-        </TableRow>
-
-        <!--DI-->
-        <TableRow>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3"
+            <Button
+                android:id="@+id/DISet"
+                android:padding="0dp"
                 android:text="@string/WochentagDI"
-                android:padding="15dp"
-                android:textSize="50px"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="4"
-                android:width="100px"
-                android:padding="15dp"
-                android:textSize="50px"/>
-        </TableRow>
-
-        <!--Morgen+Mittwoch-->
-        <TableRow>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:padding="15dp"
-                android:text="@string/morgen"
-                android:textSize="50px" />
-
-            <CheckBox
-                android:layout_width="58dp"
-                android:layout_height="wrap_content"
+                android:layout_width="130dp"
                 android:layout_column="1"
-                android:width="100px"
-                android:padding="5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3"
+                android:layout_row="0"
+                android:textSize="50px"/>
+            <Button
+                android:id="@+id/MISet"
+                android:padding="0dp"
                 android:text="@string/WochentagMI"
-                android:padding="15dp"
+                android:layout_width="130dp"
+                android:layout_column="2"
+                android:layout_row="0"
                 android:textSize="50px"/>
 
-            <CheckBox
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/DOSet"
+                android:padding="0dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:layout_column="4"
-                android:width="100px"
-                android:padding="15dp"/>
-
-        </TableRow>
-
-        <!--Mittag+Donnerstag-->
-        <TableRow>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_row="1"
                 android:layout_column="0"
-                android:text="@string/mittag"
-                android:padding="15dp"
-                android:textSize="50px"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:width="100px"
-                android:padding="15dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3"
                 android:text="@string/WochentagDO"
-                android:padding="15dp"
                 android:textSize="50px"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="4"
-                android:width="100px"
-                android:padding="15dp"/>
-
-        </TableRow>
-
-        <!--Abend+Freitag-->
-        <TableRow>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:text="@string/abend"
-                android:padding="15dp"
-                android:textSize="50px"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:width="100px"
-                android:padding="15dp"
-                android:textSize="50px"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3"
+            <Button
+                android:id="@+id/FRSet"
+                android:padding="0dp"
+                android:layout_width="130dp"
                 android:text="@string/WochentagFR"
-                android:padding="15dp"
+                android:layout_column="1"
+                android:layout_row="1"
                 android:textSize="50px"/>
+            <Button
+                android:id="@+id/anwendenSet"
+                android:padding="0dp"
+                android:text="@string/anwenden"
+                android:layout_width="130dp"
+                android:layout_column="2"
+                android:layout_row="1"
+                android:textSize="50px"/>
+        </GridLayout>
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="4"
-                android:width="100px"
-                android:padding="15dp"/>
+        <android.support.design.widget.BottomNavigationView xmlns:design="http://schema.android.com/apk/res/android.support.design"
+            android:id="@+id/bottomMenu"
+            android:layout_width="400dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="15dp"
+            app:itemIconTint="@android:color/black"
+            app:itemTextColor="@android:color/black"
+            app:menu="@menu/navigation" />
 
-        </TableRow>
-
-
-    </TableLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/schultag"
-        android:textAlignment="center"
-        android:background="@color/bgSet"
-        android:padding="15dp"
-        android:textSize="60px"/>
-
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:rowCount="2">
-
-        <Button
-            android:padding="0dp"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:text="@string/WochentagMO"
-            android:textSize="50px"/>
-        <Button
-            android:padding="0dp"
-            android:text="@string/WochentagDI"
-            android:layout_width="130dp"
-            android:layout_column="1"
-            android:layout_row="0"
-            android:textSize="50px"/>
-        <Button
-            android:padding="0dp"
-            android:text="@string/WochentagMI"
-            android:layout_width="130dp"
-            android:layout_column="2"
-            android:layout_row="0"
-            android:textSize="50px"/>
-
-        <Button
-            android:padding="0dp"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:text="@string/WochentagDO"
-            android:textSize="50px"/>
-        <Button
-            android:padding="0dp"
-            android:layout_width="130dp"
-            android:text="@string/WochentagFR"
-            android:layout_column="1"
-            android:layout_row="1"
-            android:textSize="50px"/>
-        <Button
-            android:padding="0dp"
-            android:text="@string/anwenden"
-            android:layout_width="130dp"
-            android:layout_column="2"
-            android:layout_row="1"
-            android:textSize="50px"/>
-    </GridLayout>
-
-    <android.support.design.widget.BottomNavigationView xmlns:design="http://schema.android.com/apk/res/android.support.design"
-        android:id="@+id/bottomMenu"
-        android:layout_width="400dp"
-        android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="15dp"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black"
-        app:menu="@menu/navigation" />
-
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

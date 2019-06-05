@@ -1,6 +1,7 @@
 package net.ictcampus.timeking;
 
 import android.content.Intent;
+import android.hardware.SensorEventListener;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -36,4 +37,5 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
 
     }
+
 }

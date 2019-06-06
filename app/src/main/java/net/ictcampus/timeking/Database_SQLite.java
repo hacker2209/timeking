@@ -59,7 +59,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
         String insertTageMI = "INSERT INTO Tage_Wecker (ID, Tag) VALUES (3, 'MI')";
         String insertTageDO = "INSERT INTO Tage_Wecker (ID, Tag) VALUES (4, 'DO')";
         String insertTageFR = "INSERT INTO Tage_Wecker (ID, Tag) VALUES (5, 'FR')";
-        String insertName = "INSERT INTO Name (ID, Name) VALUES (1, 'Default')";
+        String insertName = "INSERT INTO Name (ID, Name) VALUES (1, 'YOUR NAME')";
 
 
         //Erstellt die Datenbanke mit den Vorher gebrauchten befehlen
@@ -106,13 +106,13 @@ public class Database_SQLite extends SQLiteOpenHelper {
     }
 
 
-    public long add_Wecker(int tid,int zid) {
+    public long add_Wecker(int tid, int zid) {
         //Datenbank
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         //Wert abspeichern
         values.put("TageszeitID", zid);
-        values.put("TagID",tid);
+        values.put("TagID", tid);
         long newID = db.insert("Wecker", null, values);
         if (newID == -1) {
             return -1;
@@ -120,6 +120,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
             return newID;
         }
     }
+
     //Absenzen hinzufügen (Mitgeben --> Fach und Datum)
     public long add_Schultag(int id) {
         //Datenbank
@@ -134,8 +135,6 @@ public class Database_SQLite extends SQLiteOpenHelper {
             return newID;
         }
     }
-
-
 
 
     public Cursor get_Table_All() {
@@ -161,6 +160,15 @@ public class Database_SQLite extends SQLiteOpenHelper {
         Cursor data = db.rawQuery(sSQL, null);
         return data;
     }
+
+    public Cursor get_Table_Schultage() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sSQL = "SELECT * FROM Schultag";
+        Cursor data = db.rawQuery(sSQL, null);
+        return data;
+    }
+
     public Cursor get_Table_Name() {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -168,6 +176,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
         Cursor data = db.rawQuery(sSQL, null);
         return data;
     }
+
     public Cursor get_Table_Wecker() {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -183,34 +192,43 @@ public class Database_SQLite extends SQLiteOpenHelper {
         return data;
     }
 
-    public void update_status_betrieb(Integer IDNote) {
+    public void update_status_betrieb(Integer IDNote, String stand) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "UPDATE tbl_Absenz " +
-                " SET Betrieb = 'True'" +
-                " WHERE ID=" + IDNote;
-        db.execSQL(sSQL);
-    }
-    public void update_name(Integer IDNote,String newName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String sSQL = "UPDATE Name " +
-                " SET [Name] = "+newName +
+                " SET [Betrieb] = '" + stand + "'" +
                 " WHERE ID=" + IDNote;
         db.execSQL(sSQL);
     }
 
-    public void update_status_lehrer(Integer IDNote) {
+    public void update_name(String newName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sSQL = "UPDATE Name " +
+                " SET [Name] = '" + newName + "'" +
+                " WHERE ID=1";
+        db.execSQL(sSQL);
+    }
+
+    public void update_status_lehrer(Integer IDNote, String stand) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "UPDATE tbl_Absenz " +
-                " SET Lehrer = 'True'" +
+                " SET [Lehrer] = '" + stand + "'" +
                 " WHERE ID=" + IDNote;
         db.execSQL(sSQL);
     }
+
     public void clearWecker() {
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "DELETE FROM Wecker";
         db.execSQL(sSQL);
     }
 
+    public void deleteSchultag(int IDNote) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sSQL = "DELETE FROM Schultag " +
+                " WHERE " +
+                " TagID=" + IDNote;
+        db.execSQL(sSQL);
+    }
 
 
     @Override

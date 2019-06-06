@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +23,7 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
     EditText nameChange;
     Button btnMo, btnDi, btnMi, btnDo, btnFr, btnFinish;
     CheckBox checkMo, checkDi, checkMi, checkDo, checkFr, checkMid, checkMor, checkEve;
-    List<Integer> weckerZeit, weckerTage;
+    List<Integer> weckerZeit, weckerTage, schulTage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
     private void initElements() {
         weckerZeit = new ArrayList<>();
         weckerTage = new ArrayList<>();
+        schulTage = new ArrayList<>();
         bottomNavi = (BottomNavigationView) findViewById(R.id.bottomMenu);
         btnFinish = (Button) findViewById(R.id.anwendenSet);
         btnMo = (Button) findViewById(R.id.moSet);
@@ -93,12 +95,48 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        if (weckerTage.size() > 0 && weckerZeit.size() > 0) {
+        if (weckerTage.size() > 0 && weckerZeit.size() > 0 && schulTage.size() > 0) {
+            schulTage.clear();
             weckerTage.clear();
             weckerZeit.clear();
         }
+        initSchultage();
         setIDtoTag();
         setChecked();
+        setButtonColored();
+    }
+
+    private void setButtonColored() {
+        Cursor schulDat = db.get_Table_Schultage();
+        int colDay = schulDat.getColumnIndex("TagID");
+        while (schulDat.moveToNext()){
+            int tid = schulDat.getInt(colDay);
+            switch (tid){
+                case 1:
+                    btnMo.setBackgroundResource(R.color.colorAccent);
+                    break;
+                case 2:
+                    btnDi.setBackgroundResource(R.color.colorAccent);
+                    break;
+                case 3:
+                    btnMi.setBackgroundResource(R.color.colorAccent);
+                    break;
+                case 4:
+                    btnDo.setBackgroundResource(R.color.colorAccent);
+                    break;
+                case 5:
+                    btnFr.setBackgroundResource(R.color.colorAccent);
+                    break;
+            }
+        }
+    }
+
+    private void initSchultage() {
+        Cursor schultagDat = db.get_Table_Schultage();
+        int cTID = schultagDat.getColumnIndex("TagID");
+        while (schultagDat.moveToNext()) {
+            schulTage.add(schultagDat.getInt(cTID));
+        }
     }
 
     @Override
@@ -106,29 +144,65 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
         int clickedID = v.getId();
         switch (clickedID) {
             case R.id.diSet:
-                db.add_Schultag((Integer) v.getTag());
-                Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
-                        Toast.LENGTH_SHORT).show();
+                if (schulTage.contains(v.getTag())) {
+                    db.deleteSchultag((Integer) v.getTag());
+                    Toast.makeText(getApplicationContext(), "Schultag entfernt",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    v.setBackgroundResource(R.color.colorAccent);
+                    db.add_Schultag((Integer) v.getTag());
+                    Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
+                            Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.moSet:
-                db.add_Schultag((Integer) v.getTag());
-                Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
-                        Toast.LENGTH_SHORT).show();
+                if (schulTage.contains(v.getTag())) {
+                    db.deleteSchultag((Integer) v.getTag());
+                    Toast.makeText(getApplicationContext(), "Schultag entfernt",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    v.setBackgroundResource(R.color.colorAccent);
+                    db.add_Schultag((Integer) v.getTag());
+                    Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
+                            Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.miSet:
-                db.add_Schultag((Integer) v.getTag());
-                Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
-                        Toast.LENGTH_SHORT).show();
+                if (schulTage.contains(v.getTag())) {
+                    db.deleteSchultag((Integer) v.getTag());
+                    Toast.makeText(getApplicationContext(), "Schultag entfernt",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    v.setBackgroundResource(R.color.colorAccent);
+                    db.add_Schultag((Integer) v.getTag());
+                    Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
+                            Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.doSet:
-                db.add_Schultag((Integer) v.getTag());
-                Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
-                        Toast.LENGTH_SHORT).show();
+                if (schulTage.contains(v.getTag())) {
+                    db.deleteSchultag((Integer) v.getTag());
+                    Toast.makeText(getApplicationContext(), "Schultag entfernt",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    v.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+                    db.add_Schultag((Integer) v.getTag());
+                    Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
+                            Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.frSet:
-                db.add_Schultag((Integer) v.getTag());
-                Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
-                        Toast.LENGTH_SHORT).show();
+                if (schulTage.contains(v.getTag())) {
+                    db.deleteSchultag((Integer) v.getTag());
+                    Toast.makeText(getApplicationContext(), "Schultag entfernt",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    v.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+                    db.add_Schultag((Integer) v.getTag());
+                    Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
+                            Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.midCheck:
                 weckerZeit.add((Integer) v.getTag());
@@ -156,15 +230,19 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.anwendenSet:
                 if (nameChange.getText().toString().trim().length() > 0) {
-                    db.update_name(1, nameChange.getText().toString());
+                    db.update_name(nameChange.getText().toString());
                 }
-                int zid;
-                int tid;
+                int zid = 0;
+                int tid = 0;
                 for (int i = 0; i < weckerZeit.size(); i++) {
-                    zid = weckerZeit.get(i);
+                    if (weckerZeit.get(i) != null) {
+                        zid = weckerZeit.get(i);
+                    }
                     for (int x = 0; x < weckerTage.size(); x++) {
                         db.clearWecker();
-                        tid = weckerTage.get(x);
+                        if (weckerTage.get(x) != null) {
+                            tid = weckerTage.get(x);
+                        }
                         if (tid > 0 && zid > 0) {
                             db.add_Wecker(tid, zid);
                         }
@@ -173,6 +251,7 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
                 }
                 Toast.makeText(getApplicationContext(), "Erfolgreich",
                         Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SetActivity.this, MainActivity.class));
                 break;
 
 
@@ -181,6 +260,8 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
 
     public void setChecked() {
         Cursor weckerDat = db.get_Table_Wecker();
+        Cursor nameDat = db.get_Table_Name();
+        int cNid = nameDat.getColumnIndex("Name");
         int cZid = weckerDat.getColumnIndex("TageszeitID");
         int cTid = weckerDat.getColumnIndex("TagID");
         while (weckerDat.moveToNext()) {
@@ -214,6 +295,10 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
                     checkEve.setChecked(true);
                     break;
             }
+        }
+
+        while (nameDat.moveToNext()) {
+            nameChange.setHint(nameDat.getString(cNid) + "");
         }
     }
 
@@ -267,3 +352,5 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 }
+
+

@@ -250,13 +250,13 @@
 
             <Button
                 android:id="@+id/moSet"
-                android:padding="0dp"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_row="0"
                 android:layout_column="0"
+                android:padding="0dp"
                 android:text="@string/WochentagMO"
-                android:textSize="50px"/>
+                android:textSize="50px" />
             <Button
                 android:id="@+id/diSet"
                 android:padding="0dp"

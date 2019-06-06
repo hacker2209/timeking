@@ -68,7 +68,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+    private void welcomeUser(){
+        Cursor nameDat= db.get_Table_Name();
+        int cName= nameDat.getColumnIndex("Name");
+        while (nameDat.moveToNext()){
+            String name= nameDat.getString(cName);
+        }
 
+    }
     @Override
     protected void onPause() {
         super.onPause();

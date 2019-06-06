@@ -54,5 +54,4 @@ private void checkDistance() {
         }
     }
 
-
 }

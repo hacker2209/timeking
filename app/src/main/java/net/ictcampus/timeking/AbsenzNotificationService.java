@@ -23,6 +23,7 @@ public class AbsenzNotificationService extends Service {
     private float distanceGibb;
 
 
+
     private String title;
     private String content;
 
@@ -37,9 +38,11 @@ public class AbsenzNotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        ll=new LocationListener() {
+        //Neuer LocationListener
+        ll = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                //Werte auslesen
                 currentLong=location.getLongitude();
                 currentLat=location.getLatitude();
                 lastLocation=location;
@@ -61,6 +64,7 @@ public class AbsenzNotificationService extends Service {
             }
         };
         if (checkDistance()){
+            //Meldung die Ausgegeben wird
             displayNotification("ALARM!!","Du bist in der nähe der Gibb dreh dich um und renn weg!!");
         }
         return super.onStartCommand(intent, flags, startId);
@@ -69,9 +73,13 @@ public class AbsenzNotificationService extends Service {
         Intent openIntent = new Intent(this, MainActivity.class);
         PendingIntent openPendingIntent = PendingIntent.getActivity(this,0,openIntent,0);
         NotificationCompat.Builder notification= new NotificationCompat.Builder(this)
+                //Titel setzen
                 .setContentTitle(titel)
+                //Text setzen
                 .setContentText(Text)
+                //Icon setzen
                 .setSmallIcon(R.drawable.ic_launcher_background)
+                //Farbe wählen
                 .setColor(getColor(R.color.colorAccent))
                 .setVibrate(new long[]{0, 300,300,300})
                 .setLights(Color.WHITE, 1000, 5000)

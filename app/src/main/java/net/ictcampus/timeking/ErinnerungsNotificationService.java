@@ -7,8 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,8 +38,8 @@ public class ErinnerungsNotificationService extends IntentService {
         protected void onHandleIntent(Intent intent){
             Context context = this.getApplicationContext();
             //neuer nofigactionMangeger mit Nofification Service
-            notificationManager = (NotificationManager) ((Context) context).getSystemService(Context.NOTIFICATION_SERVICE);
-            //Wo geht es hin wenn auf benachrichtigung gedrückt wurde
+            notificationManager = (NotificationManager)  context.getSystemService(Context.NOTIFICATION_SERVICE);
+            //Wo geht es hin wenn auf Benachrichtigung gedrückt wurde
             Intent mIntent = new Intent(this, MainActivity.class);
             //neues Bundle
             Bundle bundle = new Bundle();

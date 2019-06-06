@@ -58,7 +58,7 @@
         app:itemIconTint="@android:color/white"
         app:srcCompat="@drawable/ic_add"/>
 
-    <android.support.design.widget.BottomNavigationView xmlns:design="http://schema.android.com/apk/res/android.support.design"
+    <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomMenu"
         android:layout_width="400dp"
         android:layout_height="70dp"

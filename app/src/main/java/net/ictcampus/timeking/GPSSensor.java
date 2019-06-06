@@ -1,7 +1,5 @@
 package net.ictcampus.timeking;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;

@@ -2,17 +2,15 @@ package net.ictcampus.timeking;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.hardware.SensorEventListener;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -36,10 +34,10 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void initElements() {
-        weckerZeit= new ArrayList<>();
-        weckerTage= new ArrayList<>();
+        weckerZeit = new ArrayList<>();
+        weckerTage = new ArrayList<>();
         bottomNavi = (BottomNavigationView) findViewById(R.id.bottomMenu);
-        btnFinish= (Button) findViewById(R.id.anwendenSet);
+        btnFinish = (Button) findViewById(R.id.anwendenSet);
         btnMo = (Button) findViewById(R.id.moSet);
         btnDi = (Button) findViewById(R.id.diSet);
         btnMi = (Button) findViewById(R.id.miSet);
@@ -100,6 +98,7 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
             weckerZeit.clear();
         }
         setIDtoTag();
+        setChecked();
     }
 
     @Override
@@ -108,18 +107,28 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
         switch (clickedID) {
             case R.id.diSet:
                 db.add_Schultag((Integer) v.getTag());
+                Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
+                        Toast.LENGTH_SHORT).show();
                 break;
             case R.id.moSet:
                 db.add_Schultag((Integer) v.getTag());
+                Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
+                        Toast.LENGTH_SHORT).show();
                 break;
             case R.id.miSet:
                 db.add_Schultag((Integer) v.getTag());
+                Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
+                        Toast.LENGTH_SHORT).show();
                 break;
             case R.id.doSet:
                 db.add_Schultag((Integer) v.getTag());
+                Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
+                        Toast.LENGTH_SHORT).show();
                 break;
             case R.id.frSet:
                 db.add_Schultag((Integer) v.getTag());
+                Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
+                        Toast.LENGTH_SHORT).show();
                 break;
             case R.id.midCheck:
                 weckerZeit.add((Integer) v.getTag());
@@ -146,23 +155,66 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
                 weckerTage.add((Integer) v.getTag());
                 break;
             case R.id.anwendenSet:
-                if (nameChange.getText().toString().trim().length()>0) {
-                    db.update_name(1,nameChange.getText().toString());
-
+                if (nameChange.getText().toString().trim().length() > 0) {
+                    db.update_name(1, nameChange.getText().toString());
                 }
+                int zid;
+                int tid;
                 for (int i = 0; i < weckerZeit.size(); i++) {
+                    zid=weckerZeit.get(i);
                     for (int x = 0; x < weckerTage.size(); x++) {
                         db.clearWecker();
-                        db.insert_wecker(weckerTage.get(x), weckerZeit.get(i));
+                        tid=weckerTage.get(x);
+                        if (tid >0 && zid >0) {
+                            db.add_Wecker(tid, zid);
+                        }
+
                     }
                 }
-                Toast.makeText(getApplicationContext(),"Erfolgreich",
+                Toast.makeText(getApplicationContext(), "Erfolgreich",
                         Toast.LENGTH_SHORT).show();
+                break;
 
 
         }
     }
-
+    public void setChecked(){
+        Cursor weckerDat= db.get_Table_Wecker();
+        int cZid=weckerDat.getColumnIndex("TageszeitID");
+        int cTid=weckerDat.getColumnIndex("TagID");
+        while (weckerDat.moveToNext()){
+            int tagID=weckerDat.getInt(cTid);
+            int zeitID=weckerDat.getInt(cTid);
+            switch (tagID){
+                case 1:
+                    checkMo.setChecked(true);
+                    break;
+                case 2:
+                    checkDi.setChecked(true);
+                    break;
+                case 3:
+                    checkMi.setChecked(true);
+                    break;
+                case 4:
+                    checkDo.setChecked(true);
+                    break;
+                case 5:
+                    checkFr.setChecked(true);
+                    break;
+            }
+            switch (zeitID){
+                case 1:
+                    checkMor.setChecked(true);
+                    break;
+                case 2:
+                    checkMid.setChecked(true);
+                    break;
+                case 3:
+                    checkEve.setChecked(true);
+                    break;
+            }
+        }
+    }
     public void setIDtoTag() {
         Cursor cursorDay = db.get_Table_Tage();
         Cursor cursorTime = db.get_Table_Zeit();

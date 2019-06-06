@@ -30,7 +30,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
@@ -69,7 +68,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
+        //AlarmManager alarmLoc = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+        Intent startLocIntent = new Intent(MainActivity.this, AbsenzNotificationService.class);
+        startService(startLocIntent);
+       //PendingIntent pendingStartLoc = PendingIntent.getService(MainActivity.this, 0, startLocIntent, 0);
+        //Calendar calLoc = Calendar.getInstance();
+        //calLoc.setTimeInMillis(System.currentTimeMillis() + 1000 * 60 * 1);
+       // alarmLoc.setRepeating(AlarmManager.RTC_WAKEUP, calLoc.getTimeInMillis(), 1000 * 60 * 1, pendingStartLoc);
         //Wecker benachrichtigung
         //neuer AlarmManager
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -138,15 +143,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onResume() {
-        if (open.getChildCount()>0){
-            open.removeViewsInLayout(1, open.getChildCount()-1);
+        if (open.getChildCount() > 0) {
+            open.removeViewsInLayout(1, open.getChildCount() - 1);
         }
         super.onResume();
         takeData();
         weckerTag = new ArrayList<Integer>();
         weckerZeit = new ArrayList<Integer>();
 
-        if(weckerTag.size()>0 | weckerZeit.size()>0){
+        if (weckerTag.size() > 0 | weckerZeit.size() > 0) {
             weckerZeit.clear();
             weckerTag.clear();
         }
@@ -159,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Cursor cursorTime = db.get_Table_Wecker();
         int idDay = cursorDay.getColumnIndex("TageszeitID");
         int idTime = cursorTime.getColumnIndex("TagID");
-        if(cursorOpenStuff.getCount()>0) {
+        if (cursorOpenStuff.getCount() > 0) {
             if (cursorDay.getCount() > 0) {
                 while (cursorDay.moveToNext() && cursorTime.moveToNext()) {
                     int day = cursorDay.getInt(idDay);
@@ -263,12 +268,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-    private void welcomeUser(){
-        Cursor nameDat= db.get_Table_Name();
-        int cName= nameDat.getColumnIndex("Name");
-        while (nameDat.moveToNext()){
-            String name= nameDat.getString(cName);
+    private void welcomeUser() {
+        Cursor nameDat = db.get_Table_Name();
+        int cName = nameDat.getColumnIndex("Name");
+        while (nameDat.moveToNext()) {
+            String name = nameDat.getString(cName);
         }
 
     }
@@ -307,9 +311,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void takeData(){
+    private void takeData() {
         Cursor cursor = db.get_Table_Open();
-        int  colID= cursor.getColumnIndex("ID");
+        int colID = cursor.getColumnIndex("ID");
         int colFach = cursor.getColumnIndex("Fach");
         int colDate = cursor.getColumnIndex("Datum");
         int colLehrer = cursor.getColumnIndex("Lehrer");
@@ -320,23 +324,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int sID = cursor.getInt(colID);
                 String sTitle = cursor.getString(colFach);
                 String sDate = cursor.getString(colDate);
-                boolean leh= Boolean.parseBoolean(cursor.getString(colLehrer));
-                boolean bet= Boolean.parseBoolean(cursor.getString(colBetrieb));
+                boolean leh = Boolean.parseBoolean(cursor.getString(colLehrer));
+                boolean bet = Boolean.parseBoolean(cursor.getString(colBetrieb));
                 //</ get Data from data_cursor >
 
 
-                fachText=new TextView(this);
-                datumText=new TextView(this);
-                newAbs=new TableRow(this);
-                betriebCheck=new CheckBox(this);
+                fachText = new TextView(this);
+                datumText = new TextView(this);
+                newAbs = new TableRow(this);
+                betriebCheck = new CheckBox(this);
                 betriebCheck.setTag(sID);
-                lehrerCheck=new CheckBox(this);
-                 lehrerCheck.setTag(sID);
+                lehrerCheck = new CheckBox(this);
+                lehrerCheck.setTag(sID);
                 fachText.setText(sTitle);
-                if (leh){
+                if (leh) {
                     lehrerCheck.setChecked(true);
                 }
-                if(bet){
+                if (bet) {
                     betriebCheck.setChecked(true);
                 }
                 datumText.setText(sDate);
@@ -346,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 newAbs.addView(datumText);
                 newAbs.addView(betriebCheck);
                 newAbs.addView(lehrerCheck);
-                newAbs.setPadding(5,5,5,5);
+                newAbs.setPadding(5, 5, 5, 5);
 
                 // String date = new SimpleDateFormat("dd.MM.YY", Locale.getDefault()).format(new Date());
                 //< create data as dataclass >
@@ -355,31 +359,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 lehrerCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked){
-                            db.update_status_lehrer(Integer.parseInt(buttonView.getTag().toString()),"True");
-                        }
-                        else {
-                            db.update_status_lehrer(Integer.parseInt(buttonView.getTag().toString()),"False");
+                        if (isChecked) {
+                            db.update_status_lehrer(Integer.parseInt(buttonView.getTag().toString()), "True");
+                        } else {
+                            db.update_status_lehrer(Integer.parseInt(buttonView.getTag().toString()), "False");
                         }
                     }
                 });
                 betriebCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked){
-                            db.update_status_betrieb(Integer.parseInt(buttonView.getTag().toString()),"True");
-                        }
-                        else {
-                            db.update_status_betrieb(Integer.parseInt(buttonView.getTag().toString()),"False");
+                        if (isChecked) {
+                            db.update_status_betrieb(Integer.parseInt(buttonView.getTag().toString()), "True");
+                        } else {
+                            db.update_status_betrieb(Integer.parseInt(buttonView.getTag().toString()), "False");
                         }
                     }
                 });
                 open.addView(newAbs);
             }
-        }
-        else {
-            fachText= new TextView(this);
-            newAbs=new TableRow(this);
+        } else {
+            fachText = new TextView(this);
+            newAbs = new TableRow(this);
             fachText.setText("keine offenen Absenzen");
             newAbs.addView(fachText);
             open.addView(newAbs);

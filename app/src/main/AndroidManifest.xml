@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.hardware.location.gps" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -13,12 +13,21 @@
         android:roundIcon="@drawable/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <receiver android:name=".AlarmReceiver" android:enabled="true" android:exported="false"/>
-        <service
-            android:name=".AbsenzNotificationService"
+        <receiver
+            android:name=".BootCompleteReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".AbsenzNotificationService"/>
 
         <activity android:name=".SetActivity" />
         <activity android:name=".AllActivity" />
@@ -26,6 +35,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

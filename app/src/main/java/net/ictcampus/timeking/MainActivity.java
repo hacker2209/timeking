@@ -185,7 +185,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if(isChecked){
-                            db.update_status_lehrer(Integer.parseInt(buttonView.getTag().toString()));
+                            db.update_status_lehrer(Integer.parseInt(buttonView.getTag().toString()),"True");
+                        }
+                        else {
+                            db.update_status_lehrer(Integer.parseInt(buttonView.getTag().toString()),"False");
                         }
                     }
                 });
@@ -193,7 +196,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if(isChecked){
-                            db.update_status_betrieb(Integer.parseInt(buttonView.getTag().toString()));
+                            db.update_status_betrieb(Integer.parseInt(buttonView.getTag().toString()),"True");
+                        }
+                        else {
+                            db.update_status_betrieb(Integer.parseInt(buttonView.getTag().toString()),"False");
                         }
                     }
                 });

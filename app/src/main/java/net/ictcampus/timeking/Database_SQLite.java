@@ -18,7 +18,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
         String createTableAbsenz = "CREATE TABLE tbl_Absenz " +
                 "(  ID INTEGER PRIMARY KEY AUTOINCREMENT " +
                 " , Fach TEXT " +      //*Note of type TEXT
-                " , Datum DATETIME " +       //*Note of type TEXT
+                " , Datum DATETIME " +
                 " , Betrieb  TEXT DEFAULT 'False' " +
                 " , Lehrer  TEXT DEFAULT 'False' " +
                 ")"

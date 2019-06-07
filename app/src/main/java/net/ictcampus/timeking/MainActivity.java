@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+
     private boolean checkSchultag() {
         int todayID=0;
         Cursor schulDat=db.get_Table_Schultage();
@@ -143,17 +145,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case Calendar.FRIDAY:
                 todayID = 5;
-                break;
-        }
-        while (schulDat.moveToNext()){
+                break;}
+            while (schulDat.moveToNext()){
                 int tagID=schulDat.getInt(colTid);
                 if (tagID==todayID){
-                    return true;
+                    return
+                            true;
                 }
             }
             return false;
         }
-
     private void nameSetzen(){
         AlertDialog.Builder nachNameFrage = new AlertDialog.Builder(this);
         nachNameFrage.setTitle("Wie heisst du");
@@ -223,9 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     int day = cursorDay.getInt(idDay);
                     int time = cursorTime.getInt(idTime);
                     switch (day) {
-                        //Montag
                         case 1:
-                            //Morgen
                             if (time == 1) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 7);

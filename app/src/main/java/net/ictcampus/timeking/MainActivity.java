@@ -1,15 +1,7 @@
-/*
-MainActivity
-Logik der Benachrichtigungen + der Offenen Absenzen
-Version 1.0
-Erstellt Moritz Zaugg, Lea Zimmermann
-*/
-
 package net.ictcampus.timeking;
 
 import android.Manifest;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
@@ -25,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -94,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //blauer Button clickbar
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
         if (checkAbsenz()&&checkSchultag()){
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
@@ -121,15 +115,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         Log.d("Alarm", "Alarms set for everyday 8 am.");
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            return;
-        }
 
 
 
     }
+
+
 
     private boolean checkSchultag() {
         int todayID=0;
@@ -161,7 +153,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         return false;
+                break;}
+            while (schulDat.moveToNext()){
+                int tagID=schulDat.getInt(colTid);
+                if (tagID==todayID){
+                    return
+                            true;
+                }
+            }
+            return false;
+        }
+    private void nameSetzen(){
+        AlertDialog.Builder nachNameFrage = new AlertDialog.Builder(this);
+        nachNameFrage.setTitle("Wie heisst du");
+        final EditText inputName = new EditText(this);
+        nachNameFrage.setView(inputName);
+        nachNameFrage.setPositiveButton("okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                db.update_name(inputName.getText().toString());
+                dialog.dismiss();
+            }
+        }).create().show();
+
+        SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("ersterStart", false);
+        editor.apply();
     }
+
+
+
 
     private void nameSetzen(){
         AlertDialog.Builder nachNameFrage = new AlertDialog.Builder(this);
@@ -232,9 +254,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     int day = cursorDay.getInt(idDay);
                     int time = cursorTime.getInt(idTime);
                     switch (day) {
-                        //Montag
                         case 1:
-                            //Morgen
                             if (time == 1) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 7);
@@ -478,13 +498,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fachText= new TextView(this);
             newAbs=new TableRow(this);
             fachText.setText(findeName());
-        } else {
-            fachText = new TextView(this);
-            newAbs = new TableRow(this);
-            fachText.setText("keine offenen Absenzen");
-            newAbs.addView(fachText);
-            open.addView(newAbs);
-
         }
     }
 

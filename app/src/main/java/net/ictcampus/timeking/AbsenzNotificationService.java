@@ -14,6 +14,8 @@ import android.icu.text.SimpleDateFormat;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
@@ -161,6 +163,7 @@ private boolean checkAbsenz(){
     private void displayNotification(String titel, String Text) {
         Intent openIntent = new Intent(this, MainActivity.class);
         PendingIntent openPendingIntent = PendingIntent.getActivity(this, 0, openIntent, 0);
+       Uri absenzSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 //Titel setzen
                 .setContentTitle(titel)
@@ -172,6 +175,7 @@ private boolean checkAbsenz(){
                 .setColor(getColor(R.color.colorAccent))
                 .setVibrate(new long[]{0, 300, 300, 300})
                 .setLights(Color.WHITE, 1000, 5000)
+                .setSound(absenzSound)
                 .setContentIntent(openPendingIntent)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)

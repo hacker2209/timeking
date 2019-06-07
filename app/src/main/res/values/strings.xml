@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Timeking</string>
+    <string name="app_name">TimeKing</string>
     <string name="WochentagMO">MO</string>
     <string name="WochentagDI">DI</string>
     <string name="WochentagMI">MI</string>

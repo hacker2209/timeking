@@ -1,5 +1,6 @@
 package net.ictcampus.timeking;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -106,6 +107,7 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
         setButtonColored();
     }
 
+    @SuppressLint("ResourceAsColor")
     private void setButtonColored() {
         Cursor schulDat = db.get_Table_Schultage();
         int colDay = schulDat.getColumnIndex("TagID");
@@ -114,18 +116,23 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
             switch (tid){
                 case 1:
                     btnMo.setBackgroundResource(R.color.colorAccent);
+                    btnMo.setTextColor(R.color.bgSet);
                     break;
                 case 2:
                     btnDi.setBackgroundResource(R.color.colorAccent);
+                    btnDi.setTextColor(R.color.bgSet);
                     break;
                 case 3:
                     btnMi.setBackgroundResource(R.color.colorAccent);
+                    btnMi.setTextColor(R.color.bgSet);
                     break;
                 case 4:
                     btnDo.setBackgroundResource(R.color.colorAccent);
+                    btnDo.setTextColor(R.color.bgSet);
                     break;
                 case 5:
                     btnFr.setBackgroundResource(R.color.colorAccent);
+                    btnFr.setTextColor(R.color.bgSet);
                     break;
             }
         }

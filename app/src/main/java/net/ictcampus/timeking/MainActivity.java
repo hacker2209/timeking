@@ -1,10 +1,20 @@
+/*
+MainActivity
+Logik der Benachrichtigungen + der Offenen Absenzen
+Version 1.0
+Erstellt Moritz Zaugg, Lea Zimmermann
+*/
+
 package net.ictcampus.timeking;
 
 import android.Manifest;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.icu.text.SimpleDateFormat;
@@ -23,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -33,26 +44,41 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
-    BottomNavigationView bottomNavigationView;
-    Database_SQLite db;
-    TableLayout open;
-    TextView fachText;
-    TextView datumText;
-    CheckBox betriebCheck;
-    CheckBox lehrerCheck;
-    TableRow newAbs;
-    List<Integer> weckerZeit, weckerTag;
-    Calendar alarmStartTime;
-    LocationManager locationManager;
-    double latitude;
-    double longitude;
-    Notification notification;
+
+    //Instanzvariablen
+    private BottomNavigationView bottomNavigationView;
+    private Database_SQLite db;
+    private TableLayout open;
+    private TextView fachText;
+    private TextView datumText;
+    private CheckBox betriebCheck;
+    private CheckBox lehrerCheck;
+    private TableRow newAbs;
+    private List<Integer> weckerZeit, weckerTag;
+    private Calendar alarmStartTime;
+    private LocationManager locationManager;
+    private double latitude;
+    private double longitude;
+    private Notification notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Datenbank verbinnden
         db = new Database_SQLite(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //
+        //Beim ersten Starten nach Namen Fragen
+        //
+        SharedPreferences preferences = getSharedPreferences("preferences",MODE_PRIVATE);
+        boolean ersterStart = preferences.getBoolean("ersterStart",true);
+        if(ersterStart){
+            nameSetzen();
+        }
+
+
+
         ArrayList<DataModel_Absenz> data_with_Notes = new ArrayList<DataModel_Absenz>();
         open = (TableLayout) findViewById(R.id.open);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);
@@ -65,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
+        //blauer Button clickbar
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         if (checkAbsenz()&&checkSchultag()){
@@ -82,22 +108,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Wecker benachrichtigung
         //neuer AlarmManager
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        //Neues Inten
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        System.out.println("-------------------------------------------------------------------------------------------------------");
-        System.out.println(Uri.parse("custom://" + System.currentTimeMillis()));
         alarmIntent.setData((Uri.parse("custom://" + System.currentTimeMillis())));
         alarmManager.cancel(pendingIntent);
-
         alarmStartTime = Calendar.getInstance();
         Calendar now = Calendar.getInstance();
-
         if (now.after(alarmStartTime)) {
             Log.d("Hey", "Added a day");
             alarmStartTime.add(Calendar.DATE, 1);
         }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         Log.d("Alarm", "Alarms set for everyday 8 am.");
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+
 
 
     }
@@ -108,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int colTid= schulDat.getColumnIndex("TagID");
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
-
         switch (day) {
             case Calendar.MONDAY:
                 todayID = 1;
@@ -126,14 +154,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 todayID = 5;
                 break;
         }
-    while (schulDat.moveToNext()){
-        int tagID=schulDat.getInt(colTid);
-        if (tagID==todayID){
-            return true;
+        while (schulDat.moveToNext()){
+            int tagID=schulDat.getInt(colTid);
+            if (tagID==todayID){
+                return true;
+            }
         }
-    }
         return false;
     }
+
+    private void nameSetzen(){
+        AlertDialog.Builder nachNameFrage = new AlertDialog.Builder(this);
+        nachNameFrage.setTitle("Wie heisst du");
+        final EditText inputName = new EditText(this);
+        nachNameFrage.setView(inputName);
+        nachNameFrage.setPositiveButton("okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                db.update_name(inputName.getText().toString());
+                dialog.dismiss();
+            }
+        }).create().show();
+
+        SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("ersterStart", false);
+        editor.apply();
+    }
+
+
+
 
     private boolean checkAbsenz() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YY");
@@ -182,18 +232,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     int day = cursorDay.getInt(idDay);
                     int time = cursorTime.getInt(idTime);
                     switch (day) {
+                        //Montag
                         case 1:
+                            //Morgen
                             if (time == 1) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 7);
                                 alarmStartTime.set(Calendar.MINUTE, 30);
                                 alarmStartTime.set(Calendar.SECOND, 0);
-                            } else if (time == 2) {
+                            }
+                            //Mittag
+                            else if (time == 2) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 12);
                                 alarmStartTime.set(Calendar.MINUTE, 0);
                                 alarmStartTime.set(Calendar.SECOND, 0);
-                            } else if (time == 3) {
+                            }
+                            //Abend
+                            else if (time == 3) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 18);
                                 alarmStartTime.set(Calendar.MINUTE, 0);
@@ -201,72 +257,96 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             break;
 
+                        //Dienstag
                         case 2:
+                            //Morgen
                             if (time == 1) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 7);
                                 alarmStartTime.set(Calendar.MINUTE, 30);
                                 alarmStartTime.set(Calendar.SECOND, 0);
-                            } else if (time == 2) {
+                            }
+                            //Mittag
+                            else if (time == 2) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 12);
                                 alarmStartTime.set(Calendar.MINUTE, 0);
                                 alarmStartTime.set(Calendar.SECOND, 0);
-                            } else if (time == 3) {
+                            }
+                            //Abend
+                            else if (time == 3) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 18);
                                 alarmStartTime.set(Calendar.MINUTE, 0);
                                 alarmStartTime.set(Calendar.SECOND, 0);
                             }
                             break;
+                        //Mittwoch
                         case 3:
+                            //Morgen
                             if (time == 1) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 7);
                                 alarmStartTime.set(Calendar.MINUTE, 30);
                                 alarmStartTime.set(Calendar.SECOND, 0);
-                            } else if (time == 2) {
+                            }
+                            //Mittag
+                            else if (time == 2) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 12);
                                 alarmStartTime.set(Calendar.MINUTE, 0);
                                 alarmStartTime.set(Calendar.SECOND, 0);
-                            } else if (time == 3) {
+                            }
+                            //Abend
+                            else if (time == 3) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 18);
                                 alarmStartTime.set(Calendar.MINUTE, 0);
                                 alarmStartTime.set(Calendar.SECOND, 0);
                             }
                             break;
+                        //Donnerstag
                         case 4:
+                            //Morgen
                             if (time == 1) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 7);
                                 alarmStartTime.set(Calendar.MINUTE, 30);
                                 alarmStartTime.set(Calendar.SECOND, 0);
-                            } else if (time == 2) {
+                            }
+                            //Mittag
+                            else if (time == 2) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 12);
                                 alarmStartTime.set(Calendar.MINUTE, 0);
                                 alarmStartTime.set(Calendar.SECOND, 0);
-                            } else if (time == 3) {
+                            }
+                            //Abend
+                            else if (time == 3) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 18);
                                 alarmStartTime.set(Calendar.MINUTE, 0);
                                 alarmStartTime.set(Calendar.SECOND, 0);
                             }
                             break;
+                        //Freitag
                         case 5:
+                            //Morgen
                             if (time == 1) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 7);
                                 alarmStartTime.set(Calendar.MINUTE, 30);
                                 alarmStartTime.set(Calendar.SECOND, 0);
-                            } else if (time == 2) {
+                            }
+                            //Mittag
+                            else if (time == 2) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 12);
                                 alarmStartTime.set(Calendar.MINUTE, 0);
                                 alarmStartTime.set(Calendar.SECOND, 0);
-                            } else if (time == 3) {
+                            }
+                            //Abend
+                            else if (time == 3) {
                                 alarmStartTime.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
                                 alarmStartTime.set(Calendar.HOUR_OF_DAY, 18);
                                 alarmStartTime.set(Calendar.MINUTE, 0);
@@ -286,14 +366,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         while (nameDat.moveToNext()) {
             String name = nameDat.getString(cName);
         }
-
     }
+
 
     @Override
     protected void onPause() {
         super.onPause();
         db.close();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -302,10 +383,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+
     @Override
     public void onClick(View v) {
         startActivity(new Intent(MainActivity.this, AddActivity.class));
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -390,6 +473,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
                 open.addView(newAbs);
             }
+        }
+        else {
+            fachText= new TextView(this);
+            newAbs=new TableRow(this);
+            fachText.setText(findeName());
         } else {
             fachText = new TextView(this);
             newAbs = new TableRow(this);
@@ -398,5 +486,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             open.addView(newAbs);
 
         }
+    }
+
+    public String findeName() {
+        Cursor cursorName = db.get_Table_Name();
+        int cNid = cursorName.getColumnIndex("Name");
+        while (cursorName.moveToNext()) {
+            String name =  cursorName.getString(cNid);
+            return (name + " du hast keine offene Absenz");
+            }
+        return ("Du hast keine offene Absenz");
     }
 }

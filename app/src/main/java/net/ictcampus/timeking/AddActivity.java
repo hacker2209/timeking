@@ -1,3 +1,9 @@
+/*
+AddActivity
+Logik der Add Funktion
+Version 1.0
+Erstellt Moritz Zaugg, Lea Zimmermann
+ */
 package net.ictcampus.timeking;
 
 import android.content.Intent;
@@ -23,7 +29,9 @@ import android.widget.TimePicker;
 import java.sql.Date;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
-    Database_SQLite db;
+
+    //Instanzvariablen
+    private Database_SQLite db;
     private Button button;
     private BottomNavigationView navi;
     private Window w;
@@ -31,13 +39,13 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     private DatePicker dateIn;
     private TimePicker timeIn;
     private String fach;
-    String date;
+    private String date;
     private String time;
     private TextView test;
     private TextView fachText;
     private TextView dateText;
-    TableLayout absenzen;
-    TableRow newAbsenz;
+    private TableLayout absenzen;
+    private TableRow newAbsenz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -153,38 +153,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         return false;
-                break;}
-            while (schulDat.moveToNext()){
-                int tagID=schulDat.getInt(colTid);
-                if (tagID==todayID){
-                    return
-                            true;
-                }
-            }
-            return false;
-        }
-    private void nameSetzen(){
-        AlertDialog.Builder nachNameFrage = new AlertDialog.Builder(this);
-        nachNameFrage.setTitle("Wie heisst du");
-        final EditText inputName = new EditText(this);
-        nachNameFrage.setView(inputName);
-        nachNameFrage.setPositiveButton("okay", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                db.update_name(inputName.getText().toString());
-                dialog.dismiss();
-            }
-        }).create().show();
-
-        SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("ersterStart", false);
-        editor.apply();
     }
 
 
 
 
+
     private void nameSetzen(){
         AlertDialog.Builder nachNameFrage = new AlertDialog.Builder(this);
         nachNameFrage.setTitle("Wie heisst du");
@@ -195,8 +169,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int which) {
                 db.update_name(inputName.getText().toString());
                 dialog.dismiss();
-            }
-        }).create().show();
+    }
+}).create().show();
 
         SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();

@@ -1,3 +1,10 @@
+/*
+Database_SQLite
+Datenbank und verschiedene Methoden zur bearbeitung der Datenbank
+Version 1.0
+Erstellt Moritz Zaugg, Lea Zimmermann
+ */
+
 package net.ictcampus.timeking;
 
 import android.content.ContentValues;
@@ -18,6 +25,8 @@ public class Database_SQLite extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        //Verschiedene Tabellen erstellen
 
         String createTableAbsenz = "CREATE TABLE tbl_Absenz " +
                 "(  ID INTEGER PRIMARY KEY AUTOINCREMENT " +
@@ -50,6 +59,8 @@ public class Database_SQLite extends SQLiteOpenHelper {
                 ", TagID INTEGER" +
                 ", FOREIGN KEY(TagID) REFERENCES Tage_Wecker(ID)" +
                 ")";
+
+
         //Insert befehle für die Tageszeit und den Tag
         String inserstTageszeitMO = "INSERT INTO zeiten_Wecker (ID, Tageszeit) VALUES ( 1, 'Morgen')";
         String inserstTageszeitMI = "INSERT INTO zeiten_Wecker (ID, Tageszeit) VALUES ( 2,'Mittag')";
@@ -137,38 +148,39 @@ public class Database_SQLite extends SQLiteOpenHelper {
     }
 
 
+    //Gibt alles der Tabelle Absenzen aus
     public Cursor get_Table_All() {
-
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "SELECT * FROM tbl_Absenz";
         Cursor data = db.rawQuery(sSQL, null);
         return data;
     }
 
+    //Gibt alles der Tabelle Zeit aus
     public Cursor get_Table_Zeit() {
-
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "SELECT * FROM zeiten_Wecker";
         Cursor data = db.rawQuery(sSQL, null);
         return data;
     }
 
+    //Gibt alles der Tabelle Tage_Wecker aus
     public Cursor get_Table_Tage() {
-
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "SELECT * FROM Tage_Wecker";
         Cursor data = db.rawQuery(sSQL, null);
         return data;
     }
 
+    //Gibt alles der Tabelle aus
     public Cursor get_Table_Schultage() {
-
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "SELECT * FROM Schultag";
         Cursor data = db.rawQuery(sSQL, null);
         return data;
     }
 
+    //Gibt alles der Tabelle Name aus
     public Cursor get_Table_Name() {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -177,14 +189,15 @@ public class Database_SQLite extends SQLiteOpenHelper {
         return data;
     }
 
+    //Gibt alles der Tabelle Wecker aus
     public Cursor get_Table_Wecker() {
-
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "SELECT * FROM Wecker";
         Cursor data = db.rawQuery(sSQL, null);
         return data;
     }
 
+    //Gibt alle offenen Absenzen aus
     public Cursor get_Table_Open() {
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "SELECT * FROM tbl_Absenz WHERE Betrieb='False' OR Lehrer='False'";
@@ -192,6 +205,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
         return data;
     }
 
+    //Update den Status des Betriebs ---> True zu false und umgekehrt
     public void update_status_betrieb(Integer IDNote, String stand) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "UPDATE tbl_Absenz " +
@@ -200,6 +214,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
         db.execSQL(sSQL);
     }
 
+    //Update mit der Tabelle Name
     public void update_name(String newName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "UPDATE Name " +
@@ -208,6 +223,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
         db.execSQL(sSQL);
     }
 
+    //Update den Status des Lehrers --> Checkbox
     public void update_status_lehrer(Integer IDNote, String stand) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "UPDATE tbl_Absenz " +
@@ -216,12 +232,14 @@ public class Database_SQLite extends SQLiteOpenHelper {
         db.execSQL(sSQL);
     }
 
+    //Löscht Wecker einträge
     public void clearWecker() {
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "DELETE FROM Wecker";
         db.execSQL(sSQL);
     }
 
+    //Löscht gezielte Wecker
     public void deleteSchultag(int IDNote) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sSQL = "DELETE FROM Schultag " +

@@ -7,8 +7,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.location.Location;
-import android.location.LocationListener;
+import android.icu.text.SimpleDateFormat;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +29,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
@@ -68,13 +68,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        //AlarmManager alarmLoc = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
-        Intent startLocIntent = new Intent(MainActivity.this, AbsenzNotificationService.class);
-        startService(startLocIntent);
-       //PendingIntent pendingStartLoc = PendingIntent.getService(MainActivity.this, 0, startLocIntent, 0);
-        //Calendar calLoc = Calendar.getInstance();
-        //calLoc.setTimeInMillis(System.currentTimeMillis() + 1000 * 60 * 1);
-       // alarmLoc.setRepeating(AlarmManager.RTC_WAKEUP, calLoc.getTimeInMillis(), 1000 * 60 * 1, pendingStartLoc);
+        if (checkAbsenz()&&checkSchultag()){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+            } else {
+                Intent startLocIntent = new Intent(this, AbsenzNotificationService.class);
+                this.startService(startLocIntent);
+            }
+        }
+
+
+
         //Wecker benachrichtigung
         //neuer AlarmManager
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -95,51 +99,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         Log.d("Alarm", "Alarms set for everyday 8 am.");
 
-        //GPS Sensor
-
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 500, listener);
 
     }
 
-    LocationListener listener = new LocationListener() {
+    private boolean checkSchultag() {
+        int todayID=0;
+        Cursor schulDat=db.get_Table_Schultage();
+        int colTid= schulDat.getColumnIndex("TagID");
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-        @Override
-        public void onLocationChanged(Location location) {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-            Location tasklocation = new Location(locationManager.GPS_PROVIDER);
-            double distanz = location.distanceTo(tasklocation);
-            tasklocation.setLatitude(46.954680);
-            tasklocation.setLongitude(7.444840);
-            //if(distanz < )
+        switch (day) {
+            case Calendar.MONDAY:
+                todayID = 1;
+                break;
+            case Calendar.TUESDAY:
+                todayID = 2;
+                break;
+            case Calendar.WEDNESDAY:
+                todayID = 3;
+                break;
+            case Calendar.THURSDAY:
+                todayID = 4;
+                break;
+            case Calendar.FRIDAY:
+                todayID = 5;
+                break;
         }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
+    while (schulDat.moveToNext()){
+        int tagID=schulDat.getInt(colTid);
+        if (tagID==todayID){
+            return true;
         }
+    }
+        return false;
+    }
 
-        @Override
-        public void onProviderEnabled(String provider) {
-
+    private boolean checkAbsenz() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YY");
+        String currentDate = sdf.format(new Date());
+        Cursor openDat = db.get_Table_Open();
+        int colDate = openDat.getColumnIndex("Datum");
+        if (openDat.getCount() > 0) {
+            while (openDat.moveToNext()) {
+                String absenzDate = openDat.getString(colDate);
+                if (absenzDate.equals(currentDate)) {
+                    return true;
+                }
+            }
+        } else {
+            return false;
         }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
+        return false;
+    }
 
     @Override
     protected void onResume() {

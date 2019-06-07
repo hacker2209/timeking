@@ -1,13 +1,16 @@
 package net.ictcampus.timeking;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.icu.text.SimpleDateFormat;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,8 +20,11 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 
+import java.util.Date;
+
 public class AbsenzNotificationService extends Service {
     final int NOTIFICATION_ID = 16;
+    Database_SQLite db;
     public Location lastLocation;
     private LocationListener gibbList;
     LocationManager gibbMan;
@@ -29,6 +35,7 @@ public class AbsenzNotificationService extends Service {
     private static double GIBBLAT = 46.954680;
     private float distanceGibb;
     boolean sendNot;
+    Activity activity;
 
 
     private String title;
@@ -44,6 +51,7 @@ public class AbsenzNotificationService extends Service {
 
     @Override
     public void onCreate() {
+        db = new Database_SQLite(this);
         super.onCreate();
         gibbList = new LocationListener() {
             @Override
@@ -52,9 +60,9 @@ public class AbsenzNotificationService extends Service {
                 currentLong = location.getLongitude();
                 currentLat = location.getLatitude();
                 lastLocation = location;
-                if (checkDistance() && sendNot == false) {
+                if (checkDistance()&&checkAbsenz()) {
                     //Meldung die Ausgegeben wird
-                    displayNotification("ALARM!!", "Du bist in der nähe der Gibb dreh dich um und renn weg!!");
+                    displayNotification("Achtung", "Du hast noch Absenzen offen!!");
                     sendNot = true;
 
                 }
@@ -80,26 +88,34 @@ public class AbsenzNotificationService extends Service {
         };
         gibbMan = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            stopSelf();
-        }
-        else {
+            displayNotification("ALARM!!", "Ich habe keine rechte!!");
+            ActivityCompat.requestPermissions(activity, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },0 );
+        } else {
             gibbMan.requestLocationUpdates(gibbMan.GPS_PROVIDER, 30000, 0, gibbList);
         }
 
-    }
 
+    }
+private boolean checkAbsenz(){
+    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YY");
+    String currentDate = sdf.format(new Date());
+    Cursor openDat = db.get_Table_Open();
+    int colDate = openDat.getColumnIndex("Datum");
+    if (openDat.getCount() > 0) {
+        while (openDat.moveToNext()) {
+            String absenzDate = openDat.getString(colDate);
+            if (absenzDate.equals(currentDate)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
     @Override
     public void onDestroy() {
+        db.close();
         super.onDestroy();
         if (gibbMan != null) {
-
             gibbMan.removeUpdates(gibbList);
         }
     }
@@ -116,7 +132,9 @@ public class AbsenzNotificationService extends Service {
                 lastLocation = location;
                 if (checkDistance()) {
                     //Meldung die Ausgegeben wird
-                    displayNotification("ALARM!!", "Du bist in der nähe der Gibb dreh dich um und renn weg!!");
+                        displayNotification("Achtung", "Du hast noch Absenzen offen!!!");
+
+
                 }
             }
 
@@ -140,6 +158,7 @@ public class AbsenzNotificationService extends Service {
 
         return super.onStartCommand(intent, flags, startId);
     }
+
     private void displayNotification(String titel, String Text) {
         Intent openIntent = new Intent(this, MainActivity.class);
         PendingIntent openPendingIntent = PendingIntent.getActivity(this, 0, openIntent, 0);
@@ -149,7 +168,7 @@ public class AbsenzNotificationService extends Service {
                 //Text setzen
                 .setContentText(Text)
                 //Icon setzen
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.drawable.ic_logo)
                 //Farbe wählen
                 .setColor(getColor(R.color.colorAccent))
                 .setVibrate(new long[]{0, 300, 300, 300})
@@ -178,8 +197,6 @@ public class AbsenzNotificationService extends Service {
         }
         return false;
     }
-
-
 
 
 }

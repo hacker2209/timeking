@@ -88,14 +88,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        if (checkAbsenz()&&checkSchultag()){
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
             } else {
                 Intent startLocIntent = new Intent(this, AbsenzNotificationService.class);
                 this.startService(startLocIntent);
             }
-        }
+
 
 
 

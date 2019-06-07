@@ -89,7 +89,6 @@ public class AbsenzNotificationService extends Service {
         gibbMan = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             displayNotification("ALARM!!", "Ich habe keine rechte!!");
-            ActivityCompat.requestPermissions(activity, new String[] {  android.Manifest.permission.ACCESS_COARSE_LOCATION  },0 );
         } else {
             gibbMan.requestLocationUpdates(gibbMan.GPS_PROVIDER, 30000, 0, gibbList);
         }

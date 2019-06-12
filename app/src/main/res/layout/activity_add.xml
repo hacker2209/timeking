@@ -22,7 +22,7 @@
         android:background="@color/bgSet"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="@string/NameAendern"
+        android:text="@string/Absenzeerstellen"
         android:textAlignment="center"
         android:textSize="60px" />
 

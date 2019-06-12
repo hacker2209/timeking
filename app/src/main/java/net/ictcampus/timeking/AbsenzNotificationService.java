@@ -98,21 +98,21 @@ public class AbsenzNotificationService extends Service {
 
 
     }
-private boolean checkAbsenz(){
-    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YY");
-    String currentDate = sdf.format(new Date());
-    Cursor openDat = db.get_Table_Open();
-    int colDate = openDat.getColumnIndex("Datum");
-    if (openDat.getCount() > 0) {
-        while (openDat.moveToNext()) {
-            String absenzDate = openDat.getString(colDate);
-            if (absenzDate.equals(currentDate)) {
-                return true;
+    private boolean checkAbsenz(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YY");
+        String currentDate = sdf.format(new Date());
+        Cursor openDat = db.get_Table_Open();
+        int colDate = openDat.getColumnIndex("Datum");
+        if (openDat.getCount() > 0) {
+            while (openDat.moveToNext()) {
+                String absenzDate = openDat.getString(colDate);
+                if (absenzDate.equals(currentDate)) {
+                    return true;
+                }
             }
         }
+        return false;
     }
-    return false;
-}
     @Override
     public void onDestroy() {
         db.close();
@@ -189,13 +189,17 @@ private boolean checkAbsenz(){
         notificationManager.notify(NOTIFICATION_ID, notification.build());
     }
 
+    //Prüft die Distanz
     private boolean checkDistance() {
+        //Neue Location
         gibbLoc = new Location("Gibb");
+        //Breiten und Längengraden
         gibbLoc.setLatitude(GIBBLAT);
         gibbLoc.setLongitude(GIBBLONG);
         if (lastLocation != null) {
             distanceGibb = gibbLoc.distanceTo(lastLocation);
         }
+
         if (distanceGibb > 0.0) {
             if (distanceGibb < 200) {
                 return true;

@@ -1,5 +1,4 @@
 package net.ictcampus.timeking;
-
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -30,7 +29,6 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,8 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             nameSetzen();
         }
 
-
-
         ArrayList<DataModel_Absenz> data_with_Notes = new ArrayList<DataModel_Absenz>();
         open = (TableLayout) findViewById(R.id.open);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);
@@ -97,9 +93,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
 
-
-
-
         //Wecker benachrichtigung
         //neuer AlarmManager
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -115,11 +108,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             alarmStartTime.add(Calendar.DATE, 1);
         }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        Log.d("Alarm", "Alarms set for everyday 8 am.");
-
-
-
-
     }
 
 
@@ -170,8 +158,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int which) {
                 db.update_name(inputName.getText().toString());
                 dialog.dismiss();
-    }
-}).create().show();
+            }
+        }).create().show();
 
         SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -355,13 +343,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void welcomeUser() {
-        Cursor nameDat = db.get_Table_Name();
-        int cName = nameDat.getColumnIndex("Name");
-        while (nameDat.moveToNext()) {
-            String name = nameDat.getString(cName);
-        }
-    }
+
 
 
     @Override
@@ -408,15 +390,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int colDate = cursor.getColumnIndex("Datum");
         int colLehrer = cursor.getColumnIndex("Lehrer");
         int colBetrieb = cursor.getColumnIndex("Betrieb");
+
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
-                //< get Data from data_cursor >
                 int sID = cursor.getInt(colID);
                 String sTitle = cursor.getString(colFach);
                 String sDate = cursor.getString(colDate);
                 boolean leh = Boolean.parseBoolean(cursor.getString(colLehrer));
                 boolean bet = Boolean.parseBoolean(cursor.getString(colBetrieb));
-                //</ get Data from data_cursor >
 
 
                 fachText = new TextView(this);
@@ -441,9 +422,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 newAbs.addView(betriebCheck);
                 newAbs.addView(lehrerCheck);
                 newAbs.setPadding(5, 5, 5, 5);
-
-                // String date = new SimpleDateFormat("dd.MM.YY", Locale.getDefault()).format(new Date());
-                //< create data as dataclass >
                 DataModel_Absenz note = new DataModel_Absenz();
                 note.Fach = sTitle;
                 lehrerCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -469,20 +447,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 open.addView(newAbs);
             }
         }
-        else {
-            fachText= new TextView(this);
+        else{
             newAbs=new TableRow(this);
+            fachText= new TextView(this);
+            newAbs.addView(fachText);
+            fachText.setTextSize(20);
             fachText.setText(findeName());
+            open.addView(newAbs);
         }
     }
 
+    //Name aus DB lesen
     public String findeName() {
         Cursor cursorName = db.get_Table_Name();
         int cNid = cursorName.getColumnIndex("Name");
         while (cursorName.moveToNext()) {
             String name =  cursorName.getString(cNid);
-            return (name + " du hast keine offene Absenz");
+                return (name + " du hast keine offene Absenz");
             }
-        return ("Du hast keine offene Absenz");
+            return ("Du hast keine offene Absenz");
     }
 }

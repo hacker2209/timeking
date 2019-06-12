@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             alarmStartTime.add(Calendar.DATE, 1);
         }
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        Log.d("Alarm", "Alarms set for everyday 8 am.");
     }
 
 
@@ -448,8 +447,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         else{
-            System.out.println("-----------------------------------------------------------");
-            System.out.println("-----------------------------------------------------------");
             newAbs=new TableRow(this);
             fachText= new TextView(this);
             newAbs.addView(fachText);

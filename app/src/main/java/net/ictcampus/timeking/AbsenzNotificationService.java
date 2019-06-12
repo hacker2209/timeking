@@ -62,7 +62,7 @@ public class AbsenzNotificationService extends Service {
                 currentLong = location.getLongitude();
                 currentLat = location.getLatitude();
                 lastLocation = location;
-                if (checkDistance()&&checkAbsenz()) {
+                if (checkDistance()&&checkAbsenz()&&!sendNot) {
                     //Meldung die Ausgegeben wird
                     displayNotification("Achtung", "Du hast noch Absenzen offen!!");
                     sendNot = true;
@@ -94,6 +94,7 @@ public class AbsenzNotificationService extends Service {
         } else {
             gibbMan.requestLocationUpdates(gibbMan.GPS_PROVIDER, 30000, 0, gibbList);
         }
+        stopSelf();
 
 
     }
@@ -119,8 +120,8 @@ private boolean checkAbsenz(){
         if (gibbMan != null) {
             gibbMan.removeUpdates(gibbList);
         }
+        gibbMan.removeUpdates(gibbList);
     }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //Neuer LocationListener
@@ -131,9 +132,10 @@ private boolean checkAbsenz(){
                 currentLong = location.getLongitude();
                 currentLat = location.getLatitude();
                 lastLocation = location;
-                if (checkDistance()) {
+                if (checkDistance()&&checkAbsenz()&&!sendNot) {
                     //Meldung die Ausgegeben wird
                         displayNotification("Achtung", "Du hast noch Absenzen offen!!!");
+                        sendNot=true;
 
 
                 }
@@ -151,12 +153,15 @@ private boolean checkAbsenz(){
 
             @Override
             public void onProviderDisabled(String provider) {
+                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
 
             }
 
 
         };
-
+        stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
 

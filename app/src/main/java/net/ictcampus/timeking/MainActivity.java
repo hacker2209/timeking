@@ -87,12 +87,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //blauer Button clickbar
         fab.setOnClickListener(this);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
+        AlarmManager alarmLocation = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+        Intent startLocIntent = new Intent(MainActivity.this, AbsenzNotificationService.class);
+        PendingIntent sender = PendingIntent.getService(MainActivity.this, 0,startLocIntent, 0);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
             } else {
-                Intent startLocIntent = new Intent(this, AbsenzNotificationService.class);
-                this.startService(startLocIntent);
+                alarmLocation.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 * 5,  sender); // Millisec * Second * Minute
+
             }
 
 

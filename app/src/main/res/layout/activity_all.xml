@@ -29,7 +29,7 @@
                 android:layout_column="0"
                 android:padding="15dp"
                 android:text="@string/Fach"
-                android:textSize="50px"></TextView>
+                android:textSize="50px"/>
 
             <TextView
                 android:id="@+id/textView2"
@@ -38,7 +38,7 @@
                 android:layout_column="1"
                 android:padding="15dp"
                 android:text="@string/Datum"
-                android:textSize="50px"></TextView>
+                android:textSize="50px"/>
 
         </TableRow>
 
@@ -54,7 +54,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginBottom="104dp"
         android:clickable="true"
-        app:backgroundTint="#3A6A8A"
+        app:backgroundTint="@color/colorPrimary"
         app:itemIconTint="@android:color/white"
         app:srcCompat="@drawable/ic_add"/>
 

@@ -21,6 +21,7 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -36,7 +37,6 @@ public class AbsenzNotificationService extends Service {
     private static double GIBBLONG = 7.444840;
     private static double GIBBLAT = 46.954680;
     private float distanceGibb;
-    boolean sendNot;
     Activity activity;
 
 
@@ -53,52 +53,12 @@ public class AbsenzNotificationService extends Service {
 
     @Override
     public void onCreate() {
-        db = new Database_SQLite(this);
         super.onCreate();
-        gibbList = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                //Werte auslesen
-                currentLong = location.getLongitude();
-                currentLat = location.getLatitude();
-                lastLocation = location;
-                if (checkDistance()&&checkAbsenz()&&!sendNot) {
-                    //Meldung die Ausgegeben wird
-                    displayNotification("Achtung", "Du hast noch Absenzen offen!!");
-                    sendNot = true;
-
-                }
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            }
-
-
-        };
-        gibbMan = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            displayNotification("ALARM!!", "Ich habe keine rechte!!");
-        } else {
-            gibbMan.requestLocationUpdates(gibbMan.GPS_PROVIDER, 30000, 0, gibbList);
-        }
-        stopSelf();
-
-
+        db = new Database_SQLite(this);
+        //registerListener();
     }
-    private boolean checkAbsenz(){
+
+    private boolean checkAbsenz() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YY");
         String currentDate = sdf.format(new Date());
         Cursor openDat = db.get_Table_Open();
@@ -113,31 +73,35 @@ public class AbsenzNotificationService extends Service {
         }
         return false;
     }
+
     @Override
     public void onDestroy() {
         db.close();
+        Toast.makeText(getApplicationContext(), "onDestroy()",
+                Toast.LENGTH_SHORT).show();
         super.onDestroy();
         if (gibbMan != null) {
             gibbMan.removeUpdates(gibbList);
         }
-        gibbMan.removeUpdates(gibbList);
+
     }
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+
+    public void registerListener() {
         //Neuer LocationListener
+        Toast.makeText(getApplicationContext(), "Startcommand",
+                Toast.LENGTH_SHORT).show();
         gibbList = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 //Werte auslesen
+                Toast.makeText(getApplicationContext(), "Ort geändert",
+                        Toast.LENGTH_SHORT).show();
                 currentLong = location.getLongitude();
                 currentLat = location.getLatitude();
                 lastLocation = location;
-                if (checkDistance()&&checkAbsenz()&&!sendNot) {
+                if (checkDistance() && checkAbsenz()) {
                     //Meldung die Ausgegeben wird
-                        displayNotification("Achtung", "Du hast noch Absenzen offen!!!");
-                        sendNot=true;
-
-
+                    displayNotification("Achtung", "Du hast noch Absenzen offen!!!");
                 }
             }
 
@@ -161,14 +125,28 @@ public class AbsenzNotificationService extends Service {
 
 
         };
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            displayNotification("ALARM!!", "Ich habe keine rechte!!");
+        } else {
+            gibbMan = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+            gibbMan.requestLocationUpdates(gibbMan.GPS_PROVIDER, 30000, 0, gibbList);
+
+
+        }
+
         stopSelf();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        registerListener();
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void displayNotification(String titel, String Text) {
+    public void displayNotification(String titel, String Text) {
         Intent openIntent = new Intent(this, MainActivity.class);
         PendingIntent openPendingIntent = PendingIntent.getActivity(this, 0, openIntent, 0);
-       Uri absenzSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri absenzSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 //Titel setzen
                 .setContentTitle(titel)

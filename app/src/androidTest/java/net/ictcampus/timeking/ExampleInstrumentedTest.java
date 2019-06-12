@@ -40,7 +40,6 @@ public class ExampleInstrumentedTest {
         }
         db.close();
         assertEquals(nameTest, dbName);
-
     }
 
     @Test
@@ -55,7 +54,6 @@ public class ExampleInstrumentedTest {
             testFach = dbAbs.getString(lastCol);
         }
         assertEquals("Englisch", testFach);
-
     }
 
     @Test
@@ -85,4 +83,5 @@ public class ExampleInstrumentedTest {
         }
         assertEquals(1, zid);
     }
+
 }

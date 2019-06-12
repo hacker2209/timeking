@@ -1,5 +1,4 @@
 package net.ictcampus.timeking;
-
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.Notification;

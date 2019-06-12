@@ -9,7 +9,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent service = new Intent(context, WeckerNotification.class);
+        Intent service = new Intent(context, AbsenzNotificationService.class);
         service.setData((Uri.parse("custom://"+System.currentTimeMillis())));
         context.startService(service);
     }

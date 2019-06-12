@@ -33,7 +33,6 @@ public class WeckerNotifications extends IntentService {
             bundle.putString("test","test");
             mIntent.putExtras(bundle);
             pendingIntent=PendingIntent.getActivity(context,0,mIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-
             Resources res=this.getResources();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
             Uri soundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
@@ -52,7 +51,6 @@ public class WeckerNotifications extends IntentService {
             notification.ledOffMS=1000;
             notificationManager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
             notificationManager.notify(NOTIFICATION_ID,notification);
-            Log.i("notif","Notificationssent.");
         }
 }
 

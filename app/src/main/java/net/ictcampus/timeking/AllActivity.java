@@ -36,9 +36,6 @@ public class AllActivity extends AppCompatActivity implements BottomNavigationVi
         all = (TableLayout) findViewById(R.id.all);
         fab.setOnClickListener(this);
         db = new Database_SQLite(this);
-
-
-
     }
 
     @Override
@@ -46,7 +43,6 @@ public class AllActivity extends AppCompatActivity implements BottomNavigationVi
         super.onPause();
         db.close();
     }
-
     @Override
     protected void onResume() {
         if (all.getChildCount() > 0) {

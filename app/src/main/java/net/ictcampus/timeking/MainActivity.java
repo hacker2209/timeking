@@ -1,4 +1,5 @@
 package net.ictcampus.timeking;
+
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -8,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.icu.text.SimpleDateFormat;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,15 +23,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
@@ -58,41 +59,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         db = new Database_SQLite(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initElements();
+        showWindowFirstStart();
+        startLocation();
+        startWecker();
+    }
 
-        //
-        //Beim ersten Starten nach Namen Fragen
-        //
-        SharedPreferences preferences = getSharedPreferences("preferences",MODE_PRIVATE);
-        boolean ersterStart = preferences.getBoolean("ersterStart",true);
-        if(ersterStart){
-            nameSetzen();
-        }
-
-        ArrayList<DataModel_Absenz> data_with_Notes = new ArrayList<DataModel_Absenz>();
-        open = (TableLayout) findViewById(R.id.open);
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addButton);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AddActivity.class));
-            }
-        });
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        //blauer Button clickbar
-        fab.setOnClickListener(this);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        AlarmManager alarmLocation = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
-        Intent startLocIntent = new Intent(MainActivity.this, AbsenzNotificationService.class);
-        PendingIntent sender = PendingIntent.getService(MainActivity.this, 0,startLocIntent, 0);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-            } else {
-                alarmLocation.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 * 30,  sender); // Millisec * Second * Minute
-
-            }
-
+    private void startWecker() {
         //Wecker benachrichtigung
         //neuer AlarmManager
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -110,45 +83,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
+    private void startLocation() {
+        //Locationbasierte Notifikation
+        AlarmManager alarmLocation = (AlarmManager) MainActivity.this.getSystemService(MainActivity.this.ALARM_SERVICE);
+        Intent startLocIntent = new Intent(MainActivity.this, AbsenzNotificationService.class);
+        PendingIntent sender = PendingIntent.getService(MainActivity.this, 0, startLocIntent, 0);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+        } else {
+            alarmLocation.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 60 * 30, sender); // Millisec * Second * Minute
 
-
-    private boolean checkSchultag() {
-        int todayID=0;
-        Cursor schulDat=db.get_Table_Schultage();
-        int colTid= schulDat.getColumnIndex("TagID");
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
-        switch (day) {
-            case Calendar.MONDAY:
-                todayID = 1;
-                break;
-            case Calendar.TUESDAY:
-                todayID = 2;
-                break;
-            case Calendar.WEDNESDAY:
-                todayID = 3;
-                break;
-            case Calendar.THURSDAY:
-                todayID = 4;
-                break;
-            case Calendar.FRIDAY:
-                todayID = 5;
-                break;
         }
-        while (schulDat.moveToNext()){
-            int tagID=schulDat.getInt(colTid);
-            if (tagID==todayID){
-                return true;
-            }
-        }
-        return false;
     }
 
+    private void initElements() {
+        Window w = getWindow();
+        w.setTitle("Offene Absenzen");
+        open = (TableLayout) findViewById(R.id.open);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addButton);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        //blauer Button clickbar
+        fab.setOnClickListener(this);
+    }
 
+    private void showWindowFirstStart() {
+        //
+        //Beim ersten Starten nach Namen Fragen
+        //
+        SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        boolean ersterStart = preferences.getBoolean("ersterStart", true);
+        if (ersterStart) {
+            nameSetzen();
+        }
+    }
 
-
-
-    private void nameSetzen(){
+    private void nameSetzen() {
         AlertDialog.Builder nachNameFrage = new AlertDialog.Builder(this);
         nachNameFrage.setTitle("Wie heisst du");
         final EditText inputName = new EditText(this);
@@ -167,26 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.apply();
     }
 
-
-
-
-    private boolean checkAbsenz() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YY");
-        String currentDate = sdf.format(new Date());
-        Cursor openDat = db.get_Table_Open();
-        int colDate = openDat.getColumnIndex("Datum");
-        if (openDat.getCount() > 0) {
-            while (openDat.moveToNext()) {
-                String absenzDate = openDat.getString(colDate);
-                if (absenzDate.equals(currentDate)) {
-                    return true;
-                }
-            }
-        } else {
-            return false;
-        }
-        return false;
-    }
 
     @Override
     protected void onResume() {
@@ -343,9 +293,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -446,10 +393,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
                 open.addView(newAbs);
             }
-        }
-        else{
-            newAbs=new TableRow(this);
-            fachText= new TextView(this);
+        } else {
+            newAbs = new TableRow(this);
+            fachText = new TextView(this);
             newAbs.addView(fachText);
             fachText.setTextSize(20);
             fachText.setText(findeName());
@@ -462,9 +408,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Cursor cursorName = db.get_Table_Name();
         int cNid = cursorName.getColumnIndex("Name");
         while (cursorName.moveToNext()) {
-            String name =  cursorName.getString(cNid);
-                return (name + " du hast keine offene Absenz");
-            }
-            return ("Du hast keine offene Absenz");
+            String name = cursorName.getString(cNid);
+            return (name + " du hast keine offene Absenz");
+        }
+        return ("Du hast keine offene Absenz");
     }
 }

@@ -7,7 +7,6 @@ Erstellt Moritz Zaugg, Lea Zimmermann
 package net.ictcampus.timeking;
 
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -52,16 +51,17 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
         w = getWindow();
+        w.setTitle("Absenz hinzufügen");
         button = (Button) findViewById(R.id.btnCreate);
         fachIn = (EditText) findViewById(R.id.fach);
         dateIn = (DatePicker) findViewById(R.id.date);
         timeIn = (TimePicker) findViewById(R.id.time);
-        dateText= new TextView(this);
-        fachText= new TextView(this);
-        newAbsenz= new TableRow(this);
+        dateText = new TextView(this);
+        fachText = new TextView(this);
+        newAbsenz = new TableRow(this);
         navi = (BottomNavigationView) findViewById(R.id.bottomMenu);
         navi.setOnNavigationItemSelectedListener(this);
-        db=new Database_SQLite(this);
+        db = new Database_SQLite(this);
         button.setOnClickListener(this);
     }
 
@@ -74,7 +74,6 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YY");
         fach = fachIn.getText().toString();
         int day = dateIn.getDayOfMonth();
         int month = dateIn.getMonth();
@@ -85,23 +84,22 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         cal.set(Calendar.DAY_OF_MONTH, day);
         int hour = timeIn.getHour();
         int minute = timeIn.getMinute();
-        date = year+"-"+(month+1)+"-"+day;
-       db.add_Note(fach, Date.valueOf(date));
+        date = year + "-" + (month + 1) + "-" + day;
+        db.add_Absenz(fach, Date.valueOf(date));
         startActivity(new Intent(AddActivity.this, MainActivity.class));
 
 
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_All) {
             startActivity(new Intent(AddActivity.this, AllActivity.class));
             return true;
-        }
-        else if(item.getItemId()==R.id.action_Open){
+        } else if (item.getItemId() == R.id.action_Open) {
             startActivity(new Intent(AddActivity.this, MainActivity.class));
             return true;
-        }
-        else if(item.getItemId()==R.id.action_settings){
+        } else if (item.getItemId() == R.id.action_settings) {
             startActivity(new Intent(AddActivity.this, SetActivity.class));
             return true;
         }

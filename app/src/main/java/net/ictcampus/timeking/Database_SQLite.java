@@ -94,7 +94,7 @@ public class Database_SQLite extends SQLiteOpenHelper {
     }
 
     //Absenzen hinzufügen (Mitgeben --> Fach und Datum)
-    public long add_Note(String sFach, Date dtNoteDay) {
+    public long add_Absenz(String sFach, Date dtNoteDay) {
         //Datenbank
         SQLiteDatabase db = this.getWritableDatabase();
         //Formate der Daten --> DD.MM.YY
@@ -247,7 +247,6 @@ public class Database_SQLite extends SQLiteOpenHelper {
                 " TagID=" + IDNote;
         db.execSQL(sSQL);
     }
-
 
 
     @Override

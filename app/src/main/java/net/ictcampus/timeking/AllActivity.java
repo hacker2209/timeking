@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ public class AllActivity extends AppCompatActivity implements BottomNavigationVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all);
+        Window w = getWindow();
+        w.setTitle("Alle Absenzen");
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottomMenu);
         navigation.setOnNavigationItemSelectedListener(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addButton);
@@ -46,15 +49,17 @@ public class AllActivity extends AppCompatActivity implements BottomNavigationVi
 
     @Override
     protected void onResume() {
-        if (all.getChildCount()>0){
-            all.removeViewsInLayout(1, all.getChildCount()-1);
+        if (all.getChildCount() > 0) {
+            //Tabelle Clearen bis auf Erste Zeile (Titel)
+            all.removeViewsInLayout(1, all.getChildCount() - 1);
         }
         super.onResume();
         takeData();
 
 
     }
-    private void takeData(){
+
+    private void takeData() {
         Cursor cursor = db.get_Table_All();
         int IDDay = cursor.getColumnIndex("IDAbsenz");
         int colFach = cursor.getColumnIndex("Fach");
@@ -65,7 +70,7 @@ public class AllActivity extends AppCompatActivity implements BottomNavigationVi
                 String sTitle = cursor.getString(colFach);
                 String sDate = cursor.getString(colDate);
                 //</ get Data from data_cursor >
-                fachText=new TextView(this);
+                fachText = new TextView(this);
                 datumText = new TextView(this);
                 newAbs = new TableRow(this);
                 fachText.setTextSize(20);
@@ -74,7 +79,7 @@ public class AllActivity extends AppCompatActivity implements BottomNavigationVi
                 datumText.setText(sDate);
                 newAbs.addView(fachText);
                 newAbs.addView(datumText);
-                newAbs.setPadding(5,5,5,5);
+                newAbs.setPadding(5, 5, 5, 5);
                 all.addView(newAbs);
                 //< create data as dataclass >
                 DataModel_Absenz note = new DataModel_Absenz();
@@ -84,6 +89,7 @@ public class AllActivity extends AppCompatActivity implements BottomNavigationVi
             }
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

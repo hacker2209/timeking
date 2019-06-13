@@ -1,7 +1,6 @@
 package net.ictcampus.timeking;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -26,19 +25,17 @@ import android.widget.Toast;
 import java.util.Date;
 
 public class AbsenzNotificationService extends Service {
-
     final int NOTIFICATION_ID = 16;
-    private Database_SQLite db;
+    Database_SQLite db;
     public Location lastLocation;
     private LocationListener gibbList;
-    private LocationManager gibbMan;
+    LocationManager gibbMan;
     private Location gibbLoc;
     private double currentLong;
     private double currentLat;
     private static double GIBBLONG = 7.444840;
     private static double GIBBLAT = 46.954680;
     private float distanceGibb;
-
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -70,11 +67,11 @@ public class AbsenzNotificationService extends Service {
 
     @Override
     public void onDestroy() {
-        db.close();
-        Toast.makeText(getApplicationContext(), "onDestroy()",
-                Toast.LENGTH_SHORT).show();
         super.onDestroy();
+        //Grund: Performance
+        db.close();
         if (gibbMan != null) {
+            //Listener abmelden
             gibbMan.removeUpdates(gibbList);
         }
 
@@ -88,8 +85,6 @@ public class AbsenzNotificationService extends Service {
             @Override
             public void onLocationChanged(Location location) {
                 //Werte auslesen
-                Toast.makeText(getApplicationContext(), "Ort geändert",
-                        Toast.LENGTH_SHORT).show();
                 currentLong = location.getLongitude();
                 currentLat = location.getLatitude();
                 lastLocation = location;
@@ -114,7 +109,6 @@ public class AbsenzNotificationService extends Service {
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
-
             }
 
 
@@ -150,20 +144,28 @@ public class AbsenzNotificationService extends Service {
                 .setSmallIcon(R.drawable.ic_logo)
                 //Farbe wählen
                 .setColor(getColor(R.color.colorAccent))
+                //Vibration
                 .setVibrate(new long[]{0, 300, 300, 300})
+                //Leuchteffekt
                 .setLights(Color.WHITE, 1000, 5000)
+                //Sound
                 .setSound(absenzSound)
+                //Inhalt Intent
                 .setContentIntent(openPendingIntent)
+                //Verschwindet automatisch
                 .setAutoCancel(true)
+                //Priorität festlegen
                 .setPriority(NotificationCompat.PRIORITY_MAX)
+                //Notifikation Stylen
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(Text));
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //Nortifikation gesendet
         notificationManager.notify(NOTIFICATION_ID, notification.build());
     }
 
     //Prüft die Distanz
     private boolean checkDistance() {
-        //Neue Location
+        //Neue Location von Gibb
         gibbLoc = new Location("Gibb");
         //Breiten und Längengraden
         gibbLoc.setLatitude(GIBBLAT);

@@ -17,12 +17,12 @@ import android.widget.TextView;
 
 public class AllActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    BottomNavigationView bottomNavigationView;
-    Database_SQLite db;
-    TextView datumText;
-    TextView fachText;
-    TableRow newAbs;
-    TableLayout all;
+    private BottomNavigationView bottomNavigationView;
+    private Database_SQLite db;
+    private TextView datumText;
+    private TextView fachText;
+    private TableRow newAbs;
+    private TableLayout all;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

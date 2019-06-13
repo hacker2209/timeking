@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SetActivity extends AppCompatActivity implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
-    BottomNavigationView bottomNavi;
-    Database_SQLite db;
-    EditText nameChange;
-    Button btnMo, btnDi, btnMi, btnDo, btnFr, btnFinish;
-    CheckBox checkMo, checkDi, checkMi, checkDo, checkFr, checkMid, checkMor, checkEve;
-    List<Integer> weckerZeit, weckerTage, schulTage;
+    private BottomNavigationView bottomNavi;
+    private Database_SQLite db;
+    private EditText nameChange;
+    private Button btnMo, btnDi, btnMi, btnDo, btnFr, btnFinish;
+    private CheckBox checkMo, checkDi, checkMi, checkDo, checkFr, checkMid, checkMor, checkEve;
+    private List<Integer> weckerZeit, weckerTage, schulTage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +39,22 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
         weckerZeit = new ArrayList<>();
         weckerTage = new ArrayList<>();
         schulTage = new ArrayList<>();
-        bottomNavi = (BottomNavigationView) findViewById(R.id.bottomMenu);
-        btnFinish = (Button) findViewById(R.id.anwendenSet);
-        btnMo = (Button) findViewById(R.id.moSet);
-        btnDi = (Button) findViewById(R.id.diSet);
-        btnMi = (Button) findViewById(R.id.miSet);
-        btnDo = (Button) findViewById(R.id.doSet);
-        btnFr = (Button) findViewById(R.id.frSet);
-        checkMo = (CheckBox) findViewById(R.id.moCheck);
-        checkDi = (CheckBox) findViewById(R.id.diCheck);
-        checkMi = (CheckBox) findViewById(R.id.miCheck);
-        checkDo = (CheckBox) findViewById(R.id.doCheck);
-        checkFr = (CheckBox) findViewById(R.id.frCheck);
-        checkMor = (CheckBox) findViewById(R.id.morCheck);
-        checkMid = (CheckBox) findViewById(R.id.midCheck);
-        checkEve = (CheckBox) findViewById(R.id.eveCheck);
-        nameChange = (EditText) findViewById(R.id.nameChange);
+        bottomNavi =  findViewById(R.id.bottomMenu);
+        btnFinish = findViewById(R.id.anwendenSet);
+        btnMo = findViewById(R.id.moSet);
+        btnDi =  findViewById(R.id.diSet);
+        btnMi =  findViewById(R.id.miSet);
+        btnDo =  findViewById(R.id.doSet);
+        btnFr =  findViewById(R.id.frSet);
+        checkMo =  findViewById(R.id.moCheck);
+        checkDi =  findViewById(R.id.diCheck);
+        checkMi =  findViewById(R.id.miCheck);
+        checkDo =  findViewById(R.id.doCheck);
+        checkFr =  findViewById(R.id.frCheck);
+        checkMor =  findViewById(R.id.morCheck);
+        checkMid =  findViewById(R.id.midCheck);
+        checkEve =  findViewById(R.id.eveCheck);
+        nameChange =  findViewById(R.id.nameChange);
         bottomNavi.setOnNavigationItemSelectedListener(this);
         btnMo.setOnClickListener(this);
         btnDi.setOnClickListener(this);
@@ -161,7 +161,6 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
                     Toast.makeText(getApplicationContext(), "Schultag hinzugefügt",
                             Toast.LENGTH_SHORT).show();
                 }
-
                 break;
             case R.id.moSet:
                 if (schulTage.contains(v.getTag())) {
@@ -308,7 +307,6 @@ public class SetActivity extends AppCompatActivity implements View.OnClickListen
             nameChange.setHint(nameDat.getString(cNid) + "");
         }
     }
-
     public void setIDtoTag() {
         Cursor cursorDay = db.get_Table_Tage();
         Cursor cursorTime = db.get_Table_Zeit();

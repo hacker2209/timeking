@@ -26,25 +26,19 @@ import android.widget.Toast;
 import java.util.Date;
 
 public class AbsenzNotificationService extends Service {
+
     final int NOTIFICATION_ID = 16;
-    Database_SQLite db;
+    private Database_SQLite db;
     public Location lastLocation;
     private LocationListener gibbList;
-    LocationManager gibbMan;
+    private LocationManager gibbMan;
     private Location gibbLoc;
     private double currentLong;
     private double currentLat;
     private static double GIBBLONG = 7.444840;
     private static double GIBBLAT = 46.954680;
     private float distanceGibb;
-    Activity activity;
 
-
-    private String title;
-    private String content;
-
-    public AbsenzNotificationService() {
-    }
 
     @Override
     public IBinder onBind(Intent intent) {

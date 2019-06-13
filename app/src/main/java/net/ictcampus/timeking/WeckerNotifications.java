@@ -15,9 +15,9 @@ import android.util.Log;
 
 public class WeckerNotifications extends IntentService {
     final int NOTIFICATION_ID=20;
-    NotificationManager notificationManager;
-    PendingIntent pendingIntent;
-    Notification notification;
+    private NotificationManager notificationManager;
+    private PendingIntent pendingIntent;
+    private Notification notification;
 
     public WeckerNotifications(String name) {
         super(name);
@@ -30,7 +30,7 @@ public class WeckerNotifications extends IntentService {
             notificationManager=(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
             Intent mIntent=new Intent(this,MainActivity.class);
             Bundle bundle=new Bundle();
-            bundle.putString("test","test");
+            bundle.putString("Wecker","Wecker");
             mIntent.putExtras(bundle);
             pendingIntent=PendingIntent.getActivity(context,0,mIntent,PendingIntent.FLAG_UPDATE_CURRENT);
             Resources res=this.getResources();
